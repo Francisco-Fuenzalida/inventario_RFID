@@ -1,9 +1,11 @@
 package com.example.inventario_rfid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -36,7 +38,18 @@ public class SecondFragment extends Fragment {
                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
             }
         });
+
+        binding.btnDatabase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myintent = new Intent(SecondFragment.this.getActivity(), Sincronizacion_activity.class);
+                startActivity(myintent);
+            }
+        });
+
+
     }
+
 
     @Override
     public void onDestroyView() {

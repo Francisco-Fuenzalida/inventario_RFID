@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Inventario_RFID.NoActionBar">
+        <activity android:name=".Sincronizacion_activity"
+            android:exported="true"
+            android:label="Sincronizacion"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
