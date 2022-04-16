@@ -26,6 +26,7 @@ public class SecondFragment extends Fragment {
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
+
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -39,11 +40,26 @@ public class SecondFragment extends Fragment {
             }
         });
 
-        binding.btnDatabase.setOnClickListener(new View.OnClickListener() {
+        binding.btnSincronizacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent myintent = new Intent(SecondFragment.this.getActivity(), Sincronizacion_activity.class);
                 startActivity(myintent);
+            }
+        });
+
+        binding.btnScanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SecondFragment.this.getActivity(), Scaner_activity.class);
+                startActivity(intent);
+            }
+        });
+        binding.btnDatabase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SecondFragment.this.getActivity(), Reportes_activity.class);
+                startActivity(intent);
             }
         });
 
