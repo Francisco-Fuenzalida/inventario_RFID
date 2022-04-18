@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Inventario_RFID.NoActionBar">
-        <activity android:name=".Reportes_activity"></activity>
+        <activity android:name=".ConfiguracionActivity"></activity>
+        <activity android:name=".Reportes_activity" />
         <activity
             android:name=".Scaner_activity"
             android:exported="true"

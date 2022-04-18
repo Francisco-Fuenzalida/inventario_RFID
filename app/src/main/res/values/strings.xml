@@ -19,4 +19,6 @@
     <string name="fecha_inicial">Fecha Inicial</string>
     <string name="fecha_final">Fecha Final</string>
     <string name="fecha">Fecha</string>
+    <!--  strings utilizados para tabla en activity_configuracion.xml  -->
+    <string name="configuracion">Configuración</string>
 </resources>

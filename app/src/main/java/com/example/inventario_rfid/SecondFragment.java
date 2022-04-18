@@ -62,8 +62,13 @@ public class SecondFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-
+        binding.btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SecondFragment.this.getActivity(), ConfiguracionActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
