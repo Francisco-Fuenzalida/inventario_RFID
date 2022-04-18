@@ -12,7 +12,11 @@
 
     <!--  strings utilizados para tabla en activity_scaner.xml  -->
     <string name="id">ID</string>
-    <string name="codigo">Codigo</string>
+    <string name="codigo">Código</string>
     <string name="item">Item</string>
     <string name='seleccionar'>Seleccionar</string>
+    <!--  strings utilizados para tabla en activity_reportes.xml  -->
+    <string name="fecha_inicial">Fecha Inicial</string>
+    <string name="fecha_final">Fecha Final</string>
+    <string name="fecha">Fecha</string>
 </resources>
