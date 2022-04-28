@@ -105,6 +105,106 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    
+    public long addOrUpdateProfile(Perfil perfil) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long perfilId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_PROFILES_DESC, perfil.desc_per);
+            values.put(KEY_PROFILES_PII, perfil.puede_insertar_item);
+            values.put(KEY_PROFILES_PEI, perfil.puede_editar_item);
+            values.put(KEY_PROFILES_PBI, perfil.puede_borrar_item);
+            values.put(KEY_PROFILES_PIU, perfil.puede_insertar_user);
+            values.put(KEY_PROFILES_PEU, perfil.puede_editar_user);
+            values.put(KEY_PROFILES_PBU, perfil.puede_borrar_user);
+            values.put(KEY_PROFILES_CFG, perfil.puede_editar_cfg);
+
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_PROFILES, values, KEY_PROFILES_DESC + "= ?", new String[]{perfil.desc_per});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String profileSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_PROFILES_ID, TABLE_PROFILES, KEY_PROFILES_DESC);
+                Cursor cursor = db.rawQuery(profileSelectQuery, new String[]{String.valueOf(perfil.desc_per)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        perfilId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                perfilId = db.insertOrThrow(TABLE_PROFILES, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return perfilId;
+    }
+
+    public long addOrUpdateUser(Usuario user) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long userId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_USER_USER,           user.user);
+            values.put(KEY_USER_PASS,           user.pass);
+            values.put(KEY_USER_NAME,           user.nombre);
+            values.put(KEY_USER_SURNAME_FATHER, user.appaterno);
+            values.put(KEY_USER_SURNAME_MOTHER, user.apmaterno);
+            values.put(KEY_USER_RUT,            user.rut);
+            values.put(KEY_USER_DV,             user.dv);
+            values.put(KEY_USER_PROFILE_ID,     user.id_per);
+
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_USERS, values, KEY_USER_USER + "= ?", new String[]{user.user});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String userSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_USER_ID, TABLE_USERS, KEY_USER_USER);
+                Cursor cursor = db.rawQuery(userSelectQuery, new String[]{String.valueOf(user.id_user)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        userId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                userId = db.insertOrThrow(TABLE_USERS, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return userId;
+    }
 
 }
