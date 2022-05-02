@@ -1,5 +1,6 @@
 package com.example.inventario_rfid;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
     //Singleton
@@ -205,6 +209,125 @@ public class DBHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
         return userId;
+    }
+
+    @SuppressLint("Range")
+    public List<Perfil> getAllProfiles() {
+        List<Perfil> profiles = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_PROFILES);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Perfil newProfile = new Perfil();
+                    newProfile.id_per = cursor.getInt(cursor.getColumnIndex(KEY_PROFILES_ID));
+                    newProfile.desc_per = cursor.getString(cursor.getColumnIndex(KEY_PROFILES_DESC));
+                    newProfile.puede_insertar_item = cursor.getInt(cursor.getColumnIndex(KEY_PROFILES_PII));
+                    newProfile.puede_insertar_user = cursor.getInt(cursor.getColumnIndex(KEY_PROFILES_PIU));
+                    newProfile.puede_editar_item = cursor.getInt(cursor.getColumnIndex(KEY_PROFILES_PEI));
+                    newProfile.puede_editar_user = cursor.getInt(cursor.getColumnIndex(KEY_PROFILES_PEU));
+                    newProfile.puede_borrar_item = cursor.getInt(cursor.getColumnIndex(KEY_PROFILES_PBI));
+                    newProfile.puede_borrar_user = cursor.getInt(cursor.getColumnIndex(KEY_PROFILES_PBU));
+                    newProfile.puede_editar_cfg = cursor.getInt(cursor.getColumnIndex(KEY_PROFILES_CFG));
+
+                    profiles.add(newProfile);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return profiles;
+    }
+    @SuppressLint("Range")
+    public Perfil getProfile(String perfil) {
+        List<Perfil> profiles = getAllProfiles();
+
+        for (Perfil perf : profiles) {
+            String desc  = perf.desc_per.toString();
+            if(desc.equals(perfil)){
+                return perf;
+            }
+        }
+        return new Perfil();
+    }
+
+
+    @SuppressLint("Range")
+    public List<Usuario> getAllUsers() {
+        List<Usuario> users = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_USERS);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Usuario newUser = new Usuario();
+                    newUser.user = cursor.getString(cursor.getColumnIndex(KEY_USER_USER));
+                    newUser.pass = cursor.getString(cursor.getColumnIndex(KEY_USER_PASS));
+                    newUser.nombre = cursor.getString(cursor.getColumnIndex(KEY_USER_NAME ));
+                    newUser.rut = cursor.getString(cursor.getColumnIndex(KEY_USER_RUT));
+                    newUser.dv = cursor.getString(cursor.getColumnIndex(KEY_USER_DV));
+                    newUser.id_per =  Integer.parseInt(cursor.getString(cursor.getColumnIndex(KEY_USER_PROFILE_ID)));
+                    newUser.id_user = Integer.parseInt(cursor.getString(cursor.getColumnIndex(KEY_USER_ID)));
+                    newUser.appaterno = cursor.getString(cursor.getColumnIndex(KEY_USER_SURNAME_FATHER));
+                    newUser.apmaterno = cursor.getString(cursor.getColumnIndex(KEY_USER_SURNAME_MOTHER));
+
+                    users.add(newUser);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return users;
+    }
+
+    @SuppressLint("Range")
+    public Usuario getUser(String username) {
+        List<Usuario> users = getAllUsers();
+
+        for (Usuario us : users) {
+            String uss =us.user.toString();
+            if(uss.equals(username)){
+                return us;
+            }
+        }
+        return new Usuario();
+    }
+
+    public Boolean Login(String usuario, String password){
+        Usuario User = getUser(usuario);
+        String ppas = User.pass.toString();
+        if(ppas.equals(password))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }
