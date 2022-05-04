@@ -23,6 +23,13 @@ public class DBHelper extends SQLiteOpenHelper {
     // Nombre Tablas
     private static final String TABLE_PROFILES = "perfil";
     private static final String TABLE_USERS = "usuario";
+    private static final String TABLE_POSICION = "posicion";
+    private static final String TABLE_ITEM = "item";
+    private static final String TABLE_CONFIGURACION = "configuracion";
+    private static final String TABLE_SUBCATEGORIA = "subcategoria";
+    private static final String TABLE_ESCANEO = "escaneo";
+    private static final String TABLE_CATEGORIA = "categoria";
+    private static final String TABLE_PAREADOS = "pareados";
 
     // Profile Table Columns
     private static final String KEY_PROFILES_ID = "id_per";
@@ -46,6 +53,50 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_USER_RUT = "rut";
     private static final String KEY_USER_DV = "dv";
     private static final String KEY_USER_PROFILE_ID = "id_per";
+
+
+    // Posicion Table Columns
+    private static final String KEY_POSICION_ID = "id_pos";
+    private static final String KEY_POSICION_DESC = "desc_pos";
+
+
+    // Item Table Columns
+    private static final String KEY_ITEM_ID = "id_item";
+    private static final String KEY_ITEM_DESC = "desc_item";
+    private static final String KEY_ITEM_SBC = "id_sbc";
+
+    // Configuracion Table Columns
+    private static final String KEY_CONFIGURACION_ID = "id_cfg";
+    private static final String KEY_CONFIGURACION_DESC = "desc_cfg";
+    private static final String KEY_CONFIGURACION_VALUE = "value_cfg";
+
+    // Subcategoria Table Columns
+    private static final String KEY_SUBCATEGORIA_ID = "id_sbc";
+    private static final String KEY_SUBCATEGORIA_DESC = "desc_sbc";
+    private static final String KEY_SUBCATEGORIA_CAT = "id_cat";
+
+    // Escaneo Table Columns
+    private static final String KEY_ESCANEO_ESC = "tag_esc";
+    private static final String KEY_ESCANEO_ITEM = "id_item";
+    private static final String KEY_ESCANEO_USER = "id_user";
+    private static final String KEY_ESCANEO_POS = "id_pos";
+    private static final String KEY_ESCANEO_SALIDA = "esSalida";
+
+    // Categoria Table Columns
+    private static final String KEY_CATEGORIA_ID = "id_cat";
+    private static final String KEY_CATEGORIA_DESC = "desc_cat";
+
+    // Pareados Table Columns
+    private static final String KEY_PAREADOS_ID = "id_par";
+    private static final String KEY_PAREADOS_PAR = "tag_par";
+    private static final String KEY_PAREADOS_ITEM = "id_item";
+    private static final String KEY_PAREADOS_USER = "id_user";
+    private static final String KEY_PAREADOS_POS = "id_pos";
+    private static final String KEY_PAREADOS_CREACION = "fec_creacion";
+    private static final String KEY_PAREADOS_MODIFICACION = "fec_modificicaion";
+    private static final String KEY_PAREADOS_SALIDA = "fec_salida";
+    private static final String KEY_PAREADOS_ESSALIDA = "esSalida";
+
 
     public static synchronized DBHelper getInstance(Context context) {
         // Use the application context, which will ensure that you
@@ -86,25 +137,104 @@ public class DBHelper extends SQLiteOpenHelper {
                 "(" +
                 KEY_USER_ID + " INTEGER PRIMARY KEY," +
                 KEY_USER_USER + " INTEGER," +
-                KEY_USER_PASS + " INTEGER," +
-                KEY_USER_NAME + " INTEGER," +
-                KEY_USER_SURNAME_FATHER + " INTEGER," +
-                KEY_USER_SURNAME_MOTHER + " INTEGER," +
+                KEY_USER_PASS + " TEXT," +
+                KEY_USER_NAME + " TEXT," +
+                KEY_USER_SURNAME_FATHER + " TEXT," +
+                KEY_USER_SURNAME_MOTHER + " TEXT," +
                 KEY_USER_RUT + " INTEGER," +
-                KEY_USER_DV + " INTEGER," +
+                KEY_USER_DV + " TEXT," +
                 KEY_USER_PROFILE_ID + " INTEGER REFERENCES " + TABLE_PROFILES + // Define a foreign key
                 ")";
 
+        String CREATE_POSICION_TABLE = "CREATE TABLE " + TABLE_POSICION +
+                "(" +
+                KEY_POSICION_ID + " INTEGER PRIMARY KEY," +
+                KEY_POSICION_DESC + " TEXT" +
+                ")";
+
+        String CREATE_ITEM_TABLE = "CREATE TABLE " + TABLE_ITEM +
+                "(" +
+                KEY_ITEM_ID + " INTEGER PRIMARY KEY," +
+                KEY_ITEM_DESC + " TEXT," +
+                KEY_ITEM_SBC + " INTEGER" +
+                ")";
+
+        String CREATE_CONFIGURACION_TABLE = "CREATE TABLE " + TABLE_CONFIGURACION +
+                "(" +
+                KEY_CONFIGURACION_ID + " INTEGER PRIMARY KEY," +
+                KEY_CONFIGURACION_DESC + " TEXT," +
+                KEY_CONFIGURACION_VALUE + " TEXT" +
+                ")";
+
+        String CREATE_SUBCATEGORIA_TABLE = "CREATE TABLE " + TABLE_SUBCATEGORIA +
+                "(" +
+                KEY_SUBCATEGORIA_ID + " INTEGER PRIMARY KEY," +
+                KEY_SUBCATEGORIA_DESC + " TEXT," +
+                KEY_SUBCATEGORIA_CAT + " INTEGER" +
+                ")";
+
+        String CREATE_ESCANEO_TABLE = "CREATE TABLE " + TABLE_ESCANEO +
+                "(" +
+                KEY_ESCANEO_ESC + " TEXT PRIMARY KEY," +
+                KEY_ESCANEO_ITEM + " INTEGER," +
+                KEY_ESCANEO_USER + " INTEGER," +
+                KEY_ESCANEO_POS + " INTEGER," +
+                KEY_ESCANEO_SALIDA + " INTEGER" +
+                ")";
+
+        String CREATE_CATEGORIA_TABLE = "CREATE TABLE " + TABLE_CATEGORIA +
+                "(" +
+                KEY_CATEGORIA_ID + " INTEGER PRIMARY KEY," +
+                KEY_CATEGORIA_DESC + " TEXT" +
+                ")";
+
+        String CREATE_PAREADOS_TABLE = "CREATE TABLE " + TABLE_PAREADOS +
+                "(" +
+                KEY_PAREADOS_ID + " INTEGER PRIMARY KEY," +
+                KEY_PAREADOS_PAR + " TEXT," +
+                KEY_PAREADOS_ITEM + " INTEGER," +
+                KEY_PAREADOS_USER + " INTEGER," +
+                KEY_PAREADOS_POS + " INTEGER," +
+                KEY_PAREADOS_CREACION + " TEXT," +
+                KEY_PAREADOS_MODIFICACION + " TEXT," +
+                KEY_PAREADOS_SALIDA + " TEXT," +
+                KEY_PAREADOS_ESSALIDA + " INTEGER" +
+                ")";
+
+
         DB.execSQL(CREATE_PROFILE_TABLE);
         DB.execSQL(CREATE_USERS_TABLE);
+
+        DB.execSQL(CREATE_POSICION_TABLE);
+
+        DB.execSQL(CREATE_CONFIGURACION_TABLE);
+
+        DB.execSQL(CREATE_CATEGORIA_TABLE);
+        DB.execSQL(CREATE_SUBCATEGORIA_TABLE);
+        DB.execSQL(CREATE_ITEM_TABLE);
+
+
+        DB.execSQL(CREATE_ESCANEO_TABLE);
+        DB.execSQL(CREATE_PAREADOS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
             // Simplest implementation is to drop all old tables and recreate them
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_PAREADOS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_ESCANEO);
+
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBCATEGORIA);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIA);
+
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_POSICION);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONFIGURACION);
+
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILES);
+
             onCreate(db);
         }
     }
@@ -210,6 +340,327 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return userId;
     }
+
+    public long addOrUpdatePosicion(Posicion posicion) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long posicionId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_POSICION_DESC, posicion.desc_pos);
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_POSICION, values, KEY_POSICION_DESC + "= ?", new String[]{posicion.desc_pos});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String posicionSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_POSICION_ID, TABLE_POSICION, KEY_POSICION_DESC);
+                Cursor cursor = db.rawQuery(posicionSelectQuery, new String[]{String.valueOf(posicion.desc_pos)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        posicionId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                posicionId = db.insertOrThrow(TABLE_POSICION, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return posicionId;
+    }
+
+    public long addOrUpdateItem(Item item) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long itemId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_ITEM_DESC, item.desc_item);
+            values.put(KEY_ITEM_SBC, item.id_sbc);
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_ITEM, values, KEY_ITEM_DESC + "= ?", new String[]{item.desc_item});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String itemSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_ITEM_ID, TABLE_ITEM, KEY_ITEM_DESC);
+                Cursor cursor = db.rawQuery(itemSelectQuery, new String[]{String.valueOf(item.desc_item)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        itemId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                itemId = db.insertOrThrow(TABLE_ITEM, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return itemId;
+    }
+
+    public long addOrUpdateConfiguracion(Configuracion configuracion) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long configuracionId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_CONFIGURACION_DESC, configuracion.desc_cfg);
+            values.put(KEY_CONFIGURACION_VALUE, configuracion.value_cfg);
+
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_CONFIGURACION, values, KEY_CONFIGURACION_DESC + "= ?", new String[]{configuracion.desc_cfg});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String configuracionSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_CONFIGURACION_ID, TABLE_CONFIGURACION, KEY_CONFIGURACION_DESC);
+                Cursor cursor = db.rawQuery(configuracionSelectQuery, new String[]{String.valueOf(configuracion.desc_cfg)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        configuracionId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                configuracionId = db.insertOrThrow(TABLE_CONFIGURACION, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return configuracionId;
+    }
+
+
+    public long addOrUpdateSubcategoria(Subcategoria subcategoria) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long subcategoriaId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_SUBCATEGORIA_DESC, subcategoria.des_sbc);
+            values.put(KEY_SUBCATEGORIA_CAT, subcategoria.id_cat);
+
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_SUBCATEGORIA, values, KEY_SUBCATEGORIA_DESC + "= ?", new String[]{subcategoria.des_sbc});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String subcategoriaSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_SUBCATEGORIA_ID, TABLE_SUBCATEGORIA, KEY_SUBCATEGORIA_DESC);
+                Cursor cursor = db.rawQuery(subcategoriaSelectQuery, new String[]{String.valueOf(subcategoria.des_sbc)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        subcategoriaId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                subcategoriaId = db.insertOrThrow(TABLE_SUBCATEGORIA, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return subcategoriaId;
+    }
+
+    public long addOrUpdateEscaneo(Escaneo escaneo) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long escaneoId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_ESCANEO_ESC, escaneo.tag_esc);
+            values.put(KEY_ESCANEO_ITEM, escaneo.id_item);
+            values.put(KEY_ESCANEO_USER, escaneo.id_user);
+            values.put(KEY_ESCANEO_POS, escaneo.id_pos);
+            values.put(KEY_ESCANEO_SALIDA, escaneo.esSalida);
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_ESCANEO, values, KEY_ESCANEO_ESC + "= ?", new String[]{escaneo.tag_esc});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String escaneoSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_ESCANEO_ESC, TABLE_ESCANEO, KEY_ESCANEO_ESC);
+                Cursor cursor = db.rawQuery(escaneoSelectQuery, new String[]{String.valueOf(escaneo.tag_esc)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        escaneoId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                escaneoId = db.insertOrThrow(TABLE_ESCANEO, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return escaneoId;
+    }
+
+    public long addOrUpdateCategoria(Categoria categoria) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long categoriaId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_CATEGORIA_DESC, categoria.desc_cat);
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_CATEGORIA, values, KEY_CATEGORIA_DESC + "= ?", new String[]{categoria.desc_cat});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String profileSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_CATEGORIA_ID, TABLE_CATEGORIA, KEY_CATEGORIA_DESC);
+                Cursor cursor = db.rawQuery(profileSelectQuery, new String[]{String.valueOf(categoria.desc_cat)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        categoriaId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                categoriaId = db.insertOrThrow(TABLE_CATEGORIA, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return categoriaId;
+    }
+
+    public long addOrUpdatePareados(Pareados pareados) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long pareadosId = -1;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_PAREADOS_PAR, pareados.tag_par);
+            values.put(KEY_PAREADOS_ITEM, pareados.id_item);
+            values.put(KEY_PAREADOS_USER, pareados.id_user);
+            values.put(KEY_PAREADOS_POS, pareados.id_pos);
+            values.put(KEY_PAREADOS_CREACION, pareados.fec_creacion);
+            values.put(KEY_PAREADOS_MODIFICACION, pareados.fec_modificacion);
+            values.put(KEY_PAREADOS_SALIDA, pareados.fec_salida);
+            values.put(KEY_PAREADOS_ESSALIDA, pareados.esSalida);
+
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_PAREADOS, values, KEY_PAREADOS_PAR + "= ?", new String[]{pareados.tag_par});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String profileSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_PAREADOS_ID, TABLE_PAREADOS, KEY_PAREADOS_PAR);
+                Cursor cursor = db.rawQuery(profileSelectQuery, new String[]{String.valueOf(pareados.tag_par)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        pareadosId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                pareadosId = db.insertOrThrow(TABLE_PAREADOS, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return pareadosId;
+    }
+
+
 
     @SuppressLint("Range")
     public List<Perfil> getAllProfiles() {
@@ -328,6 +779,323 @@ public class DBHelper extends SQLiteOpenHelper {
         {
             return false;
         }
+    }
+
+
+    @SuppressLint("Range")
+    public List<Posicion> getAllPositions() {
+        List<Posicion> positions = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_POSICION);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Posicion newPosicion = new Posicion();
+                    newPosicion.id_pos = cursor.getInt(cursor.getColumnIndex(KEY_POSICION_ID));
+                    newPosicion.desc_pos = cursor.getString(cursor.getColumnIndex(KEY_POSICION_DESC));
+
+                    positions.add(newPosicion);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return positions;
+    }
+    @SuppressLint("Range")
+    public Posicion getPosicion(String posicion) {
+        List<Posicion> Positions = getAllPositions();
+
+        for (Posicion pos : Positions) {
+            String desc  = pos.desc_pos.toString();
+            if(desc.equals(posicion)){
+                return pos;
+            }
+        }
+        return new Posicion();
+    }
+
+    @SuppressLint("Range")
+    public List<Item> getAllItem() {
+        List<Item> item = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_ITEM);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Item newItem = new Item();
+                    newItem.id_item = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_ID));
+                    newItem.desc_item = cursor.getString(cursor.getColumnIndex(KEY_ITEM_DESC));
+                    newItem.id_sbc = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_SBC));
+
+                    item.add(newItem);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return item;
+    }
+    @SuppressLint("Range")
+    public Item getItem(String item) {
+        List<Item> items = getAllItem();
+
+        for (Item it : items) {
+            String desc  = it.desc_item.toString();
+            if(desc.equals(item)){
+                return it;
+            }
+        }
+        return new Item();
+    }
+
+    @SuppressLint("Range")
+    public List<Configuracion> getAllConfiguracion() {
+        List<Configuracion> configuracion = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_CONFIGURACION);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Configuracion newConfiguracion = new Configuracion();
+                    newConfiguracion.id_cfg = cursor.getInt(cursor.getColumnIndex(KEY_CONFIGURACION_ID));
+                    newConfiguracion.desc_cfg = cursor.getString(cursor.getColumnIndex(KEY_CONFIGURACION_DESC));
+                    newConfiguracion.value_cfg = cursor.getString(cursor.getColumnIndex(KEY_CONFIGURACION_VALUE));
+
+                    configuracion.add(newConfiguracion);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return configuracion;
+    }
+    @SuppressLint("Range")
+    public Configuracion getConfiguracion(String configuracion) {
+        List<Configuracion> configuraciones = getAllConfiguracion();
+
+        for (Configuracion cfg : configuraciones) {
+            String desc  = cfg.desc_cfg.toString();
+            if(desc.equals(configuracion)){
+                return cfg;
+            }
+        }
+        return new Configuracion();
+    }
+
+    @SuppressLint("Range")
+    public List<Subcategoria> getAllSubcategoria() {
+        List<Subcategoria> subcategoria = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_SUBCATEGORIA);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Subcategoria newSubcategoria = new Subcategoria();
+                    newSubcategoria.id_sbc = cursor.getInt(cursor.getColumnIndex(KEY_SUBCATEGORIA_ID));
+                    newSubcategoria.des_sbc = cursor.getString(cursor.getColumnIndex(KEY_SUBCATEGORIA_DESC));
+                    newSubcategoria.id_cat = cursor.getInt(cursor.getColumnIndex(KEY_SUBCATEGORIA_CAT));
+
+                    subcategoria.add(newSubcategoria);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return subcategoria;
+    }
+    @SuppressLint("Range")
+    public Subcategoria getSubcategoria(String subcategoria) {
+        List<Subcategoria> Subcategoria = getAllSubcategoria();
+
+        for (Subcategoria sbc : Subcategoria) {
+            String desc  = sbc.des_sbc.toString();
+            if(desc.equals(subcategoria)){
+                return sbc;
+            }
+        }
+        return new Subcategoria();
+    }
+
+    @SuppressLint("Range")
+    public List<Escaneo> getAllEscaneos() {
+        List<Escaneo> escaneo = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_PROFILES);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Escaneo newEscaneo = new Escaneo();
+                    newEscaneo.tag_esc = cursor.getString(cursor.getColumnIndex(KEY_ESCANEO_ESC));
+                    newEscaneo.id_item = cursor.getInt(cursor.getColumnIndex(KEY_ESCANEO_ITEM));
+                    newEscaneo.id_user = cursor.getInt(cursor.getColumnIndex(KEY_ESCANEO_USER));
+                    newEscaneo.id_pos = cursor.getInt(cursor.getColumnIndex(KEY_ESCANEO_POS));
+                    newEscaneo.esSalida = cursor.getInt(cursor.getColumnIndex(KEY_ESCANEO_SALIDA));
+
+                    escaneo.add(newEscaneo);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return escaneo;
+    }
+
+    @SuppressLint("Range")
+    public List<Categoria> getAllCategoria() {
+        List<Categoria> categoria = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_CATEGORIA);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Categoria newCategoria = new Categoria();
+                    newCategoria.id_cat = cursor.getInt(cursor.getColumnIndex(KEY_CATEGORIA_ID));
+                    newCategoria.desc_cat = cursor.getString(cursor.getColumnIndex(KEY_CATEGORIA_DESC));
+
+                    categoria.add(newCategoria);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return categoria;
+    }
+    @SuppressLint("Range")
+    public Categoria getCategoria(String perfil) {
+        List<Categoria> cats = getAllCategoria();
+
+        for (Categoria cat : cats) {
+            String desc  = cat.desc_cat.toString();
+            if(desc.equals(perfil)){
+                return cat;
+            }
+        }
+        return new Categoria();
+    }
+
+    @SuppressLint("Range")
+    public List<Pareados> getAllPareados() {
+        List<Pareados> pareados = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_PAREADOS);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Pareados newPareados = new Pareados();
+                    newPareados.id_par = cursor.getInt(cursor.getColumnIndex(KEY_PAREADOS_ID));
+                    newPareados.tag_par = cursor.getString(cursor.getColumnIndex(KEY_PAREADOS_PAR));
+                    newPareados.id_item = cursor.getInt(cursor.getColumnIndex(KEY_PAREADOS_ITEM));
+                    newPareados.id_user = cursor.getInt(cursor.getColumnIndex(KEY_PAREADOS_USER));
+                    newPareados.id_pos = cursor.getInt(cursor.getColumnIndex(KEY_PAREADOS_POS));
+                    newPareados.fec_creacion = cursor.getString(cursor.getColumnIndex(KEY_PAREADOS_CREACION));
+                    newPareados.fec_modificacion = cursor.getString(cursor.getColumnIndex(KEY_PAREADOS_MODIFICACION));
+                    newPareados.fec_salida = cursor.getString(cursor.getColumnIndex(KEY_PAREADOS_SALIDA));
+                    newPareados.esSalida = cursor.getInt(cursor.getColumnIndex(KEY_PAREADOS_ESSALIDA));
+
+                    pareados.add(newPareados);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return pareados;
+    }
+    @SuppressLint("Range")
+    public Pareados getPareados(String tag) {
+        List<Pareados> Pareados = getAllPareados();
+
+        for (Pareados par : Pareados) {
+            String desc  = par.tag_par.toString();
+            if(desc.equals(tag)){
+                return par;
+            }
+        }
+        return new Pareados();
     }
 
 }
