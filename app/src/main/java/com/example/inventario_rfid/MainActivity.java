@@ -19,6 +19,7 @@ import com.example.inventario_rfid.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import com.zebra.rfid.api3.*;
 
 public class MainActivity extends AppCompatActivity {
 
