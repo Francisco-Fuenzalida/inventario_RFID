@@ -10,15 +10,37 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
-    <!--  strings utilizados para tabla en activity_scaner.xml  -->
+
+    <!--  strings utilizados en el fragment_first.xml  -->
+    <string name="usuario">Usuario</string>
+    <string name="email">Email</string>
+    <string name="contrasena">Contraseña</string>
+    <!--  strings utilizados para el fragment_second.xml -->
+    <string name="bienvenido">Bienvenido</string>
+    <string name="mi_usuario">Mi Usuario</string>
+    <!--  strings utilizados en activity_scaner.xml  -->
+    <string name="scanner">SCANNER</string>
+    <string name="antena_conectada">Antena Conectada</string>
     <string name="id">ID</string>
     <string name="codigo">Código</string>
     <string name="item">Item</string>
     <string name='seleccionar'>Seleccionar</string>
-    <!--  strings utilizados para tabla en activity_reportes.xml  -->
+    <!--  strings utilizados en activity_reportes.xml  -->
+    <string name="datos">Datos</string>
+    <string name="filtros">Filtros</string>
     <string name="fecha_inicial">Fecha Inicial</string>
     <string name="fecha_final">Fecha Final</string>
     <string name="fecha">Fecha</string>
+    <!--  strings utilizados en activity_sincronizacion.xml  -->
+    <string name="sincronizacion">Sincronización</string>
     <!--  strings utilizados para tabla en activity_configuracion.xml  -->
     <string name="configuracion">Configuración</string>
+    <!--  strings para los botones  -->
+    <string name="btn_ingresar">INGRESAR</string>
+    <string name="btn_registrarse">REGISTRARSE</string>
+    <string name="btn_olvide_mi_contrasena">OLVIDÉ MI CONTRASEÑA</string>
+    <string name="btn_salir">SALIR</string>
+    <string name="btn_volver">VOLVER</string>
+    <string name="btn_importar">IMPORTAR</string>
+    <string name="btn_exportar">EXPORTAR</string>
 </resources>
