@@ -74,15 +74,19 @@ public class FirstFragment extends Fragment {
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DBHelper dbh = DBHelper.getInstance(getContext());
-                boolean go = dbh.Login("tester","tester");
-                if (go){
-                    Toast.makeText(getActivity(),"Login Exitoso",Toast.LENGTH_SHORT);
-                    NavHostFragment.findNavController(FirstFragment.this)
-                            .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                try {
+                    String usuario = user.getText().toString();
+                    String contrasena = pass.getText().toString();
+                    DBHelper dbh = DBHelper.getInstance(getContext());
+                    boolean go = dbh.Login(usuario, contrasena);
+                    if (go) {
+                        Toast.makeText(getActivity(), "Login Exitoso", Toast.LENGTH_SHORT).show();
+                        NavHostFragment.findNavController(FirstFragment.this)
+                                .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                    }
                 }
-                else{
-                    Toast.makeText(getActivity(),"Login Fallido",Toast.LENGTH_SHORT);
+                catch (Exception e){
+                    Toast.makeText(getActivity(), "Login Fallido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
