@@ -21,6 +21,7 @@ public class FirstFragment extends Fragment {
 
 
     EditText user, pass;
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -31,6 +32,19 @@ public class FirstFragment extends Fragment {
 
     }
 
+    //Método para validar el formato de los datos antes de INGRESAR
+    public Boolean validacionLogin(String usuario, String contrasena) {
+        if (usuario.isEmpty()) {
+            Toast.makeText(getActivity(), "El campo email esta vacio", Toast.LENGTH_SHORT).show();
+        } else if (contrasena.isEmpty()) {
+            Toast.makeText(getActivity(), "El campo contraseñá esta vacio", Toast.LENGTH_SHORT).show();
+        } else if (contrasena.length() < 4) {
+            Toast.makeText(getActivity(), "La contraseña no puede ser inferios a 4 caracteres", Toast.LENGTH_SHORT).show();
+        } else {
+            return true;
+        }
+        return false;
+    }
 
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -65,8 +79,7 @@ public class FirstFragment extends Fragment {
             usuario.id_per = pf.id_per;
 
             DBH.addOrUpdateUser(usuario);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             ;
         }
 
@@ -74,22 +87,25 @@ public class FirstFragment extends Fragment {
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    String usuario = user.getText().toString();
-                    String contrasena = pass.getText().toString();
-                    DBHelper dbh = DBHelper.getInstance(getContext());
-                    boolean go = dbh.Login(usuario, contrasena);
-                    if (go) {
-                        Toast.makeText(getActivity(), "Login Exitoso", Toast.LENGTH_SHORT).show();
-                        NavHostFragment.findNavController(FirstFragment.this)
-                                .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                String usuario = user.getText().toString();
+                String contrasena = pass.getText().toString();
+                boolean validacion = validacionLogin(usuario, contrasena);
+                if (validacion == true) {
+                    try {
+                        DBHelper dbh = DBHelper.getInstance(getContext());
+                        boolean go = dbh.Login(usuario, contrasena);
+                        if (go) {
+                            Toast.makeText(getActivity(), "Login Exitoso", Toast.LENGTH_SHORT).show();
+                            NavHostFragment.findNavController(FirstFragment.this)
+                                    .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), "Email o Contraseña incorrectos", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch (Exception e){
-                    Toast.makeText(getActivity(), "Login Fallido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
     @Override
