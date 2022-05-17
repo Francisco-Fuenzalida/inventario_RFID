@@ -35,6 +35,13 @@
     <string name="sincronizacion">Sincronización</string>
     <!--  strings utilizados para tabla en activity_configuracion.xml  -->
     <string name="configuracion">Configuración</string>
+    <!--  strings utilizados en activity_registrarse.xml  -->
+    <string name="confirmar_contrasena">Confirmar Contraseña</string>
+    <string name="nombre">Nombre</string>
+    <string name="ap_paterno">Apellido Paterno</string>
+    <string name="ap_materno">Apellido Materno</string>
+    <string name="rut">Rut: XXXXXXXX-X</string>
+    <string name="btn_ya_estoy_registrado">Ya estoy registrado</string>
     <!--  strings para los botones  -->
     <string name="btn_ingresar">INGRESAR</string>
     <string name="btn_registrarse">REGISTRARSE</string>
@@ -43,4 +50,5 @@
     <string name="btn_volver">VOLVER</string>
     <string name="btn_importar">IMPORTAR</string>
     <string name="btn_exportar">EXPORTAR</string>
+
 </resources>

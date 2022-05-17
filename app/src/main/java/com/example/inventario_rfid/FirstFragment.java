@@ -1,6 +1,7 @@
 package com.example.inventario_rfid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,13 +40,12 @@ public class FirstFragment extends Fragment {
         } else if (contrasena.isEmpty()) {
             Toast.makeText(getActivity(), "El campo contraseñá esta vacio", Toast.LENGTH_SHORT).show();
         } else if (contrasena.length() < 4) {
-            Toast.makeText(getActivity(), "La contraseña no puede ser inferios a 4 caracteres", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "La contraseña debe tener al menos 4 caracteres", Toast.LENGTH_SHORT).show();
         } else {
             return true;
         }
         return false;
     }
-
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -83,7 +83,7 @@ public class FirstFragment extends Fragment {
             ;
         }
 
-
+        //Método para iniciar sesión e ir al SecondFragment.java
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +103,15 @@ public class FirstFragment extends Fragment {
                         Toast.makeText(getActivity(), "Email o Contraseña incorrectos", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+
+        //Método para al presionar el btn_registarse iniciar el Registrarse_activity.java
+        binding.btnRegistrarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myintent = new Intent(FirstFragment.this.getActivity(), Registrarse_activity.class);
+                startActivity(myintent);
             }
         });
 
