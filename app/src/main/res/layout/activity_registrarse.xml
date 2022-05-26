@@ -10,7 +10,7 @@
         android:id="@+id/imageView"
         android:layout_width="309dp"
         android:layout_height="56dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
         android:inputType="textPersonName"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="MissingConstraints" />
@@ -42,7 +42,6 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="@string/contrasena"
-        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +71,6 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="@string/nombre"
-        android:inputType="textPersonName"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -89,7 +87,6 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="@string/ap_paterno"
-        android:inputType="textPersonName"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -106,10 +103,9 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="@string/ap_materno"
-        android:inputType="textPersonName"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idApPaterno"
         tools:ignore="MissingConstraints" />
@@ -123,12 +119,42 @@
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="@string/rut"
-        android:inputType="textPersonName"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idApMaterno"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/idRespSecreta"
+        android:layout_width="349dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:hint="@string/respuesta_secreta"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idPregSecreta"
+        tools:ignore="MissingConstraints" />
+
+    <Spinner
+        android:id="@+id/idPregSecreta"
+        android:layout_width="349dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:ems="10"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idRut"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -136,14 +162,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
         android:text="@string/btn_registrarse"
         app:backgroundTint="#050505"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idRut" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonYaRegistrado" />
 
     <Button
         android:id="@+id/buttonYaRegistrado"
@@ -156,6 +182,6 @@
         app:backgroundTint="#6E6D6D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRegistrarse" />
+        app:layout_constraintTop_toBottomOf="@+id/idRespSecreta" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,6 +41,7 @@
     <string name="ap_paterno">Apellido Paterno</string>
     <string name="ap_materno">Apellido Materno</string>
     <string name="rut">Rut: XXXXXXXX-X</string>
+    <string name="respuesta_secreta">Respuesta de pregunta secreta</string>
     <string name="btn_ya_estoy_registrado">Ya estoy registrado</string>
     <!--  strings para los botones  -->
     <string name="btn_ingresar">INGRESAR</string>

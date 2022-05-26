@@ -30,6 +30,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_ESCANEO = "escaneo";
     private static final String TABLE_CATEGORIA = "categoria";
     private static final String TABLE_PAREADOS = "pareados";
+    private static final String TABLE_SECURITY_QUESTIONS = "pregunta_seguridad";
 
     // Profile Table Columns
     private static final String KEY_PROFILES_ID = "id_per";
@@ -52,6 +53,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_USER_SURNAME_MOTHER = "apmaterno";
     private static final String KEY_USER_RUT = "rut";
     private static final String KEY_USER_DV = "dv";
+    private static final String KEY_USER_SECRET_QUESTION_ID = "id_sec_que";
+    private static final String KEY_USER_SECRET_ANSWER = "respuesta_secreta";
     private static final String KEY_USER_PROFILE_ID = "id_per";
 
 
@@ -96,6 +99,10 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_PAREADOS_MODIFICACION = "fec_modificicaion";
     private static final String KEY_PAREADOS_SALIDA = "fec_salida";
     private static final String KEY_PAREADOS_ESSALIDA = "esSalida";
+
+    // Pregunta Seguridad Table Columns
+    private static final String KEY_SECURITY_QUESTIONS_ID = "id_sec_que";
+    private static final String KEY_SECURITY_QUESTIONS_DESC = "desc_question";
 
 
     public static synchronized DBHelper getInstance(Context context) {
@@ -143,7 +150,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_USER_SURNAME_MOTHER + " TEXT," +
                 KEY_USER_RUT + " INTEGER," +
                 KEY_USER_DV + " TEXT," +
-                KEY_USER_PROFILE_ID + " INTEGER REFERENCES " + TABLE_PROFILES + // Define a foreign key
+                KEY_USER_SECRET_ANSWER + " TEXT," +
+                KEY_USER_PROFILE_ID + " INTEGER REFERENCES " + TABLE_PROFILES + "," +// Define a foreign key
+                KEY_USER_SECRET_QUESTION_ID + " INTEGER REFERENCES " + TABLE_SECURITY_QUESTIONS +
                 ")";
 
         String CREATE_POSICION_TABLE = "CREATE TABLE " + TABLE_POSICION +
@@ -201,6 +210,31 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_PAREADOS_ESSALIDA + " INTEGER" +
                 ")";
 
+        String CREATE_SECURITY_QUESTIONS_TABLE = "CREATE TABLE " + TABLE_SECURITY_QUESTIONS +
+                "(" +
+                KEY_SECURITY_QUESTIONS_ID + " INTEGER PRIMARY KEY," +
+                KEY_SECURITY_QUESTIONS_DESC + " TEXT" +
+                ")";
+
+        String INSERT_SECURITY_QUESTIONS_TABLE = "INSERT INTO " + TABLE_SECURITY_QUESTIONS + " (" + KEY_SECURITY_QUESTIONS_DESC + ") VALUES" +
+                "('Escoja una pregunta de seguridad:')," +
+                "('¿Cómo se llama tu tío favorito?')," +
+                "('¿Dónde conociste a tu pareja?')," +
+                "('¿Cómo se llama tu primo mayor?')," +
+                "('¿Cual es el apodo de tu hijo menor?')," +
+                "('¿Dónde pasaste tu luna de miel?')," +
+                "('¿Cómmo se llama tu profesor favorito?')," +
+                "('¿Cúal es tu anime favorito?')," +
+                "('¿Donde nacio tu tatarabuela?')";
+
+        String INSERT_PERFIL_TABLE = "INSERT INTO " + TABLE_PROFILES + " (" + KEY_PROFILES_DESC+','+KEY_PROFILES_PII+','+KEY_PROFILES_PEI+','+KEY_PROFILES_PBI+','+
+                KEY_PROFILES_PIU+','+KEY_PROFILES_PEU+','+KEY_PROFILES_PBU+','+KEY_PROFILES_CFG + ") VALUES" +
+                "('admin',1,1,1,1,1,1,1)";
+
+        String INSERT_USER_TABLE = "INSERT INTO " + TABLE_USERS + " (" + KEY_USER_USER+','+KEY_USER_PASS+','+KEY_USER_NAME+','+KEY_USER_SURNAME_FATHER+','+
+                KEY_USER_SURNAME_MOTHER+','+KEY_USER_RUT+','+KEY_USER_DV+','+KEY_USER_SECRET_ANSWER+','+KEY_USER_PROFILE_ID+','+KEY_USER_SECRET_QUESTION_ID + ") VALUES" +
+                "('tester','tester','Tester','Testington','Testeani','19999999','1','tester',1,1)";
+
 
         DB.execSQL(CREATE_PROFILE_TABLE);
         DB.execSQL(CREATE_USERS_TABLE);
@@ -216,6 +250,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
         DB.execSQL(CREATE_ESCANEO_TABLE);
         DB.execSQL(CREATE_PAREADOS_TABLE);
+        DB.execSQL(CREATE_SECURITY_QUESTIONS_TABLE);
+        DB.execSQL(INSERT_SECURITY_QUESTIONS_TABLE);
+        DB.execSQL(INSERT_PERFIL_TABLE);
+        DB.execSQL(INSERT_USER_TABLE);
     }
 
     @Override
@@ -660,7 +698,50 @@ public class DBHelper extends SQLiteOpenHelper {
         return pareadosId;
     }
 
+    public long addOrUpdateSecurityQuestions(SecurityQuestions securityQuestions) {
+        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
+        SQLiteDatabase db = getWritableDatabase();
+        long pareadosId = -1;
 
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_SECURITY_QUESTIONS_ID, securityQuestions.id_sec_que);
+            values.put(KEY_SECURITY_QUESTIONS_DESC, securityQuestions.desc_question);
+
+
+            // First try to update the user in case the user already exists in the database
+            // This assumes userNames are unique
+            int rows = db.update(TABLE_SECURITY_QUESTIONS, values, KEY_SECURITY_QUESTIONS_DESC + "= ?", new String[]{securityQuestions.desc_question});
+
+            // Check if update succeeded
+            if (rows == 1) {
+                // Get the primary key of the user we just updated
+                String profileSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
+                        KEY_SECURITY_QUESTIONS_ID, TABLE_SECURITY_QUESTIONS, KEY_SECURITY_QUESTIONS_DESC);
+                Cursor cursor = db.rawQuery(profileSelectQuery, new String[]{String.valueOf(securityQuestions.desc_question)});
+                try {
+                    if (cursor.moveToFirst()) {
+                        pareadosId = cursor.getInt(0);
+                        db.setTransactionSuccessful();
+                    }
+                } finally {
+                    if (cursor != null && !cursor.isClosed()) {
+                        cursor.close();
+                    }
+                }
+            } else {
+                // user with this userName did not already exist, so insert new user
+                pareadosId = db.insertOrThrow(TABLE_SECURITY_QUESTIONS, null, values);
+                db.setTransactionSuccessful();
+            }
+        } catch (Exception e) {
+            String debug = e.toString();
+        } finally {
+            db.endTransaction();
+        }
+        return pareadosId;
+    }
 
     @SuppressLint("Range")
     public List<Perfil> getAllProfiles() {
@@ -1098,4 +1179,49 @@ public class DBHelper extends SQLiteOpenHelper {
         return new Pareados();
     }
 
+    @SuppressLint("Range")
+    public List<SecurityQuestions> getAllSecurityQuestions() {
+        List<SecurityQuestions> questions = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s",
+                        TABLE_SECURITY_QUESTIONS);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    SecurityQuestions newSecurityQuestions = new SecurityQuestions();
+                    newSecurityQuestions.id_sec_que = cursor.getInt(cursor.getColumnIndex(KEY_SECURITY_QUESTIONS_ID));
+                    newSecurityQuestions.desc_question = cursor.getString(cursor.getColumnIndex(KEY_SECURITY_QUESTIONS_DESC));
+
+                    questions.add(newSecurityQuestions);
+
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return questions;
+    }
+
+    @SuppressLint("Range")
+    public SecurityQuestions getSecurityQuesions(String question) {
+        List<SecurityQuestions> SecurityQuestions = getAllSecurityQuestions();
+
+        for (SecurityQuestions sec_que : SecurityQuestions) {
+            String desc = sec_que.desc_question.toString();
+            if (desc.equals(question)) {
+                return sec_que;
+            }
+        }
+        return new SecurityQuestions();
+    }
 }

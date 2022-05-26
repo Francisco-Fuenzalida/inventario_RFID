@@ -52,36 +52,6 @@ public class FirstFragment extends Fragment {
 
         user = getView().findViewById(R.id.idNombreUser);
         pass = getView().findViewById(R.id.idPassword);
-        try {
-            DBHelper DBH = DBHelper.getInstance(getContext());
-            Perfil perf = new Perfil();
-            perf.desc_per = "admin";
-            perf.puede_insertar_item = 1;
-            perf.puede_editar_item = 1;
-            perf.puede_borrar_item = 1;
-            perf.puede_insertar_user = 1;
-            perf.puede_editar_user = 1;
-            perf.puede_borrar_user = 1;
-            perf.puede_editar_cfg = 1;
-
-
-            DBH.addOrUpdateProfile(perf);
-            Perfil pf = DBH.getProfile("admin");
-
-            Usuario usuario = new Usuario();
-            usuario.user = "tester";
-            usuario.pass = "tester";
-            usuario.nombre = "Tester";
-            usuario.appaterno = "Testington";
-            usuario.apmaterno = "Testeani";
-            usuario.rut = "19999999";
-            usuario.dv = "1";
-            usuario.id_per = pf.id_per;
-
-            DBH.addOrUpdateUser(usuario);
-        } catch (Exception e) {
-            ;
-        }
 
         //Método para iniciar sesión e ir al SecondFragment.java
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
@@ -98,9 +68,11 @@ public class FirstFragment extends Fragment {
                             Toast.makeText(getActivity(), "Login Exitoso", Toast.LENGTH_SHORT).show();
                             NavHostFragment.findNavController(FirstFragment.this)
                                     .navigate(R.id.action_FirstFragment_to_SecondFragment);
+                        } else {
+                            Toast.makeText(getActivity(), "La contraseña es incorrecta", Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
-                        Toast.makeText(getActivity(), "Email o Contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "El email no está registrado", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -110,8 +82,8 @@ public class FirstFragment extends Fragment {
         binding.btnRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myintent = new Intent(FirstFragment.this.getActivity(), Registrarse_activity.class);
-                startActivity(myintent);
+                Intent intent = new Intent(FirstFragment.this.getActivity(), Registrarse_activity.class);
+                startActivity(intent);
             }
         });
 
