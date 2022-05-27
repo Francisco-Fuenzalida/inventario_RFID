@@ -40,7 +40,12 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation project(path: ':RFIDAPI3Library')
     implementation project(':RFIDAPI3Library')
+    //Implementacion que añade SQLiteToExcel
+    implementation 'com.ajts.androidmads.SQLite2Excel:library:1.0.4'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation 'org.apache.poi:poi:4.0.0'
+    implementation 'org.apache.poi:poi-ooxml:4.0.0'
+
 }
