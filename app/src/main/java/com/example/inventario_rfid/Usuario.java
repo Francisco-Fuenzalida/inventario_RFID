@@ -9,5 +9,7 @@ public class Usuario {
     public String apmaterno;
     public String rut;
     public String dv;
+    public String answer;
+    public int id_sec_que;
     public int id_per;
 }

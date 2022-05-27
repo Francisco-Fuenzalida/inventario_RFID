@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -143,7 +144,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS +
                 "(" +
                 KEY_USER_ID + " INTEGER PRIMARY KEY," +
-                KEY_USER_USER + " INTEGER," +
+                KEY_USER_USER + " TEXT," +
                 KEY_USER_PASS + " TEXT," +
                 KEY_USER_NAME + " TEXT," +
                 KEY_USER_SURNAME_FATHER + " TEXT," +
@@ -343,6 +344,8 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(KEY_USER_SURNAME_MOTHER, user.apmaterno);
             values.put(KEY_USER_RUT,            user.rut);
             values.put(KEY_USER_DV,             user.dv);
+            values.put(KEY_USER_SECRET_ANSWER,  user.answer);
+            values.put(KEY_USER_SECRET_QUESTION_ID, user.id_sec_que);
             values.put(KEY_USER_PROFILE_ID,     user.id_per);
 
 
@@ -355,7 +358,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 // Get the primary key of the user we just updated
                 String userSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
                         KEY_USER_ID, TABLE_USERS, KEY_USER_USER);
-                Cursor cursor = db.rawQuery(userSelectQuery, new String[]{String.valueOf(user.id_user)});
+                Cursor cursor = db.rawQuery(userSelectQuery, new String[]{String.valueOf(user.user)});
                 try {
                     if (cursor.moveToFirst()) {
                         userId = cursor.getInt(0);
