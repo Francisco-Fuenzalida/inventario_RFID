@@ -27,12 +27,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
-<<<<<<< Updated upstream
         android:text="@string/btn_importar"
-=======
-        android:text="Importar"
+
         android:onClick="openFileChooser"
->>>>>>> Stashed changes
+
         app:backgroundTint="#040404"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

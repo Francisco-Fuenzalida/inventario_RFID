@@ -9,13 +9,13 @@
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Inventario_RFID.NoActionBar">
-<<<<<<< Updated upstream
+
         <activity android:name=".Registrarse_activity"></activity>
         <activity android:name=".ConfiguracionActivity" />
-=======
+
 
         <activity android:name=".ConfiguracionActivity"></activity>
->>>>>>> Stashed changes
+
         <activity android:name=".Reportes_activity" />
         <activity
             android:name=".Scaner_activity"

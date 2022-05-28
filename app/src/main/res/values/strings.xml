@@ -35,7 +35,7 @@
     <string name="sincronizacion">Sincronización</string>
     <!--  strings utilizados para tabla en activity_configuracion.xml  -->
     <string name="configuracion">Configuración</string>
-<<<<<<< Updated upstream
+
     <!--  strings utilizados en activity_registrarse.xml  -->
     <string name="confirmar_contrasena">Confirmar Contraseña</string>
     <string name="nombre">Nombre</string>
