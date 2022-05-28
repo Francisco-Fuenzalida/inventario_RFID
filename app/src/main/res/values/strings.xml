@@ -35,7 +35,6 @@
     <string name="sincronizacion">Sincronización</string>
     <!--  strings utilizados para tabla en activity_configuracion.xml  -->
     <string name="configuracion">Configuración</string>
-
     <!--  strings utilizados en activity_registrarse.xml  -->
     <string name="confirmar_contrasena">Confirmar Contraseña</string>
     <string name="nombre">Nombre</string>
@@ -52,8 +51,8 @@
     <string name="btn_volver">VOLVER</string>
     <string name="btn_importar">IMPORTAR</string>
     <string name="btn_exportar">EXPORTAR</string>
+    <string name="btn_buscar_usuario">BUSCAR USUARIO</string>
+    <string name="btn_recuperar_cuenta">RECUPERAR CUENTA</string>
 
-=======
     <string name="file_path" />
->>>>>>> Stashed changes
 </resources>

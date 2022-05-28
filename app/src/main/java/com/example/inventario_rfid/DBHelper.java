@@ -822,8 +822,10 @@ public class DBHelper extends SQLiteOpenHelper {
                     newUser.dv = cursor.getString(cursor.getColumnIndex(KEY_USER_DV));
                     newUser.id_per =  Integer.parseInt(cursor.getString(cursor.getColumnIndex(KEY_USER_PROFILE_ID)));
                     newUser.id_user = Integer.parseInt(cursor.getString(cursor.getColumnIndex(KEY_USER_ID)));
+                    newUser.id_sec_que = Integer.parseInt(cursor.getString(cursor.getColumnIndex(KEY_USER_SECRET_QUESTION_ID)));
                     newUser.appaterno = cursor.getString(cursor.getColumnIndex(KEY_USER_SURNAME_FATHER));
                     newUser.apmaterno = cursor.getString(cursor.getColumnIndex(KEY_USER_SURNAME_MOTHER));
+                    newUser.answer = cursor.getString(cursor.getColumnIndex(KEY_USER_SECRET_ANSWER));
 
                     users.add(newUser);
 
@@ -1234,6 +1236,17 @@ public class DBHelper extends SQLiteOpenHelper {
         for (SecurityQuestions sec_que : SecurityQuestions) {
             String desc = sec_que.desc_question.toString();
             if (desc.equals(question)) {
+                return sec_que;
+            }
+        }
+        return new SecurityQuestions();
+    }
+
+    public SecurityQuestions getSecurityQuesionsForID(int id_question) {
+        List<SecurityQuestions> SecurityQuestions = getAllSecurityQuestions();
+        for (SecurityQuestions sec_que : SecurityQuestions) {
+            int id = sec_que.id_sec_que;
+            if (id == id_question) {
                 return sec_que;
             }
         }

@@ -87,6 +87,15 @@ public class FirstFragment extends Fragment {
             }
         });
 
+        //Método para al presionar el buttonRecuperar iniciar el Registrarse_activity.java
+        binding.buttonRecuperar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FirstFragment.this.getActivity(), Recuperar_contrasena_activity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
