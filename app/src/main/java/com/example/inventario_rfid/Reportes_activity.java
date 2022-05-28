@@ -5,13 +5,18 @@ import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Reportes_activity extends AppCompatActivity{
 
@@ -41,6 +46,17 @@ public class Reportes_activity extends AppCompatActivity{
         setContentView(R.layout.activity_reportes);
         dateText = findViewById(R.id.txt_fecha_ini);
         dateText2 = findViewById(R.id.txt_fecha_fin);
+        Button btn_cargar = (Button) findViewById(R.id.btn_cargarDatos);
+        btn_cargar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    MostrarDatos(dateText.toString(), dateText2.toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         findViewById(R.id.txt_btn_ini).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,13 +133,67 @@ public class Reportes_activity extends AppCompatActivity{
             mDay2 = day;
             // show selected date to date button
             dateText2.setText(new StringBuilder()
-                    .append(mYear2).append("-")
+                    .append(mDay2).append(" ")
                     .append(mMonth2 + 1).append("-")
-                    .append(mDay2).append(" "));
+                    .append(mYear2).append("-"));
+
+
         }
     }
 
 
 
 
-}
+        public void MostrarDatos (String DateText1, String DateText2) throws ParseException {
+            Context context = getApplicationContext();
+            try{
+                if (ValidacionDatos(DateText1, DateText2)){
+
+                    // AÑADIR LAS QUERYS PARA HACER EL SELECT E INSERTAR EN LA TABLA VISUALMENTE.
+
+
+                }
+                else{
+                    Toast.makeText(context, "Datos No Válidos", Toast.LENGTH_SHORT).show();
+             }}
+            catch (ParseException e){
+                e.printStackTrace();
+                throw e;
+           }
+
+        }
+
+        public boolean ValidacionDatos (String DateText1, String DateText2) throws ParseException {
+            Boolean EsValido = false;
+            Context context = getApplicationContext();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date strDate = sdf.parse(DateText1);
+            Date strDate2 = sdf.parse(DateText2);
+            if (DateText1.isEmpty() && DateText2.isEmpty()){
+               //Ambas fechas se encuentran vacias
+                Toast.makeText(context, "Ambas fechas se encuentran vacias", Toast.LENGTH_SHORT).show();
+            }
+            else if (DateText1.isEmpty()){
+                // Mostrar un diagolo de que la fecha 1 está vacia
+                Toast.makeText(context, "La fecha de Inicio se encuentra vacia", Toast.LENGTH_SHORT).show();
+            }
+            else if (DateText2.isEmpty()){
+                //Mostrar un dialogo que la fecha2 está vacia
+                Toast.makeText(context, "La fecha de Fin se encuentra vacia", Toast.LENGTH_SHORT).show();
+            }
+            else if  (!strDate2.after(strDate)){
+               //Mostrar un dialogo que la fecha 2 es antes que la primera
+                Toast.makeText(context, "La fecha de Fin no puede ser anterior a la de Inicio", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                EsValido = true;
+                Toast.makeText(context, "Fechas Correctas", Toast.LENGTH_SHORT).show();
+            }
+
+            return EsValido;
+        }
+    }
+
+
+

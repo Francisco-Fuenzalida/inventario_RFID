@@ -22,7 +22,7 @@
         android:id="@+id/textView4"
         android:layout_width="133dp"
         android:layout_height="56dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="64dp"
         android:gravity="center"
         android:text="@string/datos"
         android:textColor="#000000"
@@ -102,10 +102,11 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_fecha_ini" />
 
     <TableLayout
-        android:layout_width="412dp"
-        android:layout_height="377dp"
-        android:layout_marginTop="164dp"
+        android:layout_width="418dp"
+        android:layout_height="384dp"
+        android:layout_marginTop="216dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
@@ -181,5 +182,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </TableLayout>
+
+    <Button
+        android:id="@+id/btn_cargarDatos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Cargar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_fecha_fin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
