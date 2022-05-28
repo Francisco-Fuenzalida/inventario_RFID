@@ -852,6 +852,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return new Usuario();
     }
 
+    @SuppressLint("Range")
+    public Usuario getUserRut(String rut) {
+        List<Usuario> users = getAllUsers();
+        for (Usuario us : users) {
+            String rut_encontrado = us.rut.toString();
+            if(rut_encontrado.equals(rut)){
+                return us;
+            }
+        }
+        return new Usuario();
+    }
+
     public Boolean Login(String usuario, String password){
         Usuario User = getUser(usuario);
         String ppas = User.pass.toString();

@@ -157,13 +157,27 @@ public class Registrarse_activity extends AppCompatActivity {
         return false;
     }
 
-
+    //Método para que no se registre un usuario con un email ya registrado
     public Boolean revisarRegistro(String email) {
         DBHelper DBH = DBHelper.getInstance(getApplicationContext());
         Usuario User = DBH.getUser(email);
         String email_existente = User.user;
         try{
             if (email_existente.equals(email)) {
+                return false;
+            }
+        } catch (Exception e){
+        }
+        return true;
+    }
+
+    //Método para que no se registre un usuario con un rut ya registrado
+    public Boolean revisarRut(String rut) {
+        DBHelper DBH = DBHelper.getInstance(getApplicationContext());
+        Usuario User = DBH.getUserRut(rut);
+        String rut_existente = User.rut;
+        try{
+            if (rut_existente.equals(rut)) {
                 return false;
             }
         } catch (Exception e){
@@ -197,22 +211,27 @@ public class Registrarse_activity extends AppCompatActivity {
                 if (revisar_registro) {
                     String dv = String.valueOf(rut.charAt(rut.length() - 1));
                     rut = rut.substring(0, rut.length() - 2);
-                    Usuario usuario = new Usuario();
-                    usuario.user = email;
-                    usuario.pass = pass;
-                    usuario.nombre = nombre;
-                    usuario.appaterno = ap_paterno;
-                    usuario.apmaterno = ap_materno;
-                    usuario.rut = rut;
-                    usuario.dv = dv;
-                    usuario.answer = respuesta;
-                    usuario.id_sec_que = id_question;
-                    usuario.id_per = 1;
-                    DBH.addOrUpdateUser(usuario);
-                    Toast.makeText(getApplicationContext(), "Te has registrado con éxito", Toast.LENGTH_SHORT).show();
-                    finish();
+                    boolean revisar_rut = revisarRut(rut);
+                    if (revisar_rut) {
+                        Usuario usuario = new Usuario();
+                        usuario.user = email;
+                        usuario.pass = pass;
+                        usuario.nombre = nombre;
+                        usuario.appaterno = ap_paterno;
+                        usuario.apmaterno = ap_materno;
+                        usuario.rut = rut;
+                        usuario.dv = dv;
+                        usuario.answer = respuesta;
+                        usuario.id_sec_que = id_question;
+                        usuario.id_per = 1;
+                        DBH.addOrUpdateUser(usuario);
+                        Toast.makeText(getApplicationContext(), "Te has registrado con éxito", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "El Rut ingresado ya esta registrado", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "El Email ingresado ya existe", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "El Email ingresado ya esta registrado", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "Error al intentar registrar usuario", Toast.LENGTH_SHORT).show();
