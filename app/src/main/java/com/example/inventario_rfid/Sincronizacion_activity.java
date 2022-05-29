@@ -39,6 +39,8 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.xml.serializer.utils.Utils;
 
 import java.io.File;
@@ -147,7 +149,11 @@ public class Sincronizacion_activity extends AppCompatActivity {
     }
 
     public void guardar(){
-        Workbook workbook = new HSSFWorkbook();
+        //Para generar un archivo (.xls)
+        //Workbook workbook = new HSSFWorkbook();
+
+        //Para generar un archivo (.xlsx)
+        Workbook workbook = new XSSFWorkbook();
         Cell cell = null;
         //CellStyle cellStyle = workbook.createCellStyle();
         //cellStyle.setFillForegroundColor(HSSFColor.HSSFColorPredefined.LIGHT_BLUE.getIndex());
@@ -188,8 +194,13 @@ public class Sincronizacion_activity extends AppCompatActivity {
             i ++;
         }
 
+        //Generar un archivo (.xsl)
+        //File file = new File(getExternalFilesDir(null), "Datos_De_Prueba.xls");
 
-        File file = new File(getExternalFilesDir(null), "Datos_De_Prueba.xls");
+
+        //Generar un archivo (.xlsx)
+        File file = new File(getExternalFilesDir(null), "Datos_de_prueba.xlsx");
+
         FileOutputStream out = null;
         try{
             out = new FileOutputStream(file);
@@ -217,10 +228,17 @@ public class Sincronizacion_activity extends AppCompatActivity {
 
         try {
             inputStream = file;
+
             POIFSFileSystem fileSystem = new POIFSFileSystem(inputStream);
 
-            HSSFWorkbook workbook = new HSSFWorkbook(fileSystem);
-            HSSFSheet sheet = workbook.getSheetAt(0);
+            //PARA ARCHIVOS HASTA EL 2007 (.XLS)
+            //HSSFWorkbook workbook = new HSSFWorkbook(fileSystem);
+            //HSSFSheet sheet = workbook.getSheetAt(0);
+
+            //PARA ARCHIVOS DESDE EL 2007 EN ADELANTE (.XLSX)
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+
             Iterator <Row> rowIterator = sheet.rowIterator();
 
             while(rowIterator.hasNext()){
