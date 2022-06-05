@@ -60,7 +60,6 @@ public class Sincronizacion_activity extends AppCompatActivity {
 
     EditText edtFilePäth;
     String directory_path = Environment.getExternalStorageDirectory().getPath() + "/storage/emulated/0/Download/table1.xls";
-
     DBHelper dbHelper;
 
 
@@ -150,10 +149,10 @@ public class Sincronizacion_activity extends AppCompatActivity {
 
     public void guardar(){
         //Para generar un archivo (.xls)
-        //Workbook workbook = new HSSFWorkbook();
+        Workbook workbook = new HSSFWorkbook();
 
         //Para generar un archivo (.xlsx)
-        Workbook workbook = new XSSFWorkbook();
+        //Workbook workbook = new XSSFWorkbook();
         Cell cell = null;
         //CellStyle cellStyle = workbook.createCellStyle();
         //cellStyle.setFillForegroundColor(HSSFColor.HSSFColorPredefined.LIGHT_BLUE.getIndex());
@@ -195,11 +194,11 @@ public class Sincronizacion_activity extends AppCompatActivity {
         }
 
         //Generar un archivo (.xsl)
-        //File file = new File(getExternalFilesDir(null), "Datos_De_Prueba.xls");
+        File file = new File(getExternalFilesDir(null), "Datos_De_Prueba.xls");
 
 
         //Generar un archivo (.xlsx)
-        File file = new File(getExternalFilesDir(null), "Datos_de_prueba.xlsx");
+       // File file = new File(getExternalFilesDir(null), "Datos_de_prueba.xlsx");
 
         FileOutputStream out = null;
         try{
@@ -226,32 +225,53 @@ public class Sincronizacion_activity extends AppCompatActivity {
 
         String datos ="";
 
+
         try {
             inputStream = file;
 
             POIFSFileSystem fileSystem = new POIFSFileSystem(inputStream);
 
             //PARA ARCHIVOS HASTA EL 2007 (.XLS)
-            //HSSFWorkbook workbook = new HSSFWorkbook(fileSystem);
-            //HSSFSheet sheet = workbook.getSheetAt(0);
+            HSSFWorkbook workbook = new HSSFWorkbook(fileSystem);
+            HSSFSheet sheet = workbook.getSheetAt(0);
 
             //PARA ARCHIVOS DESDE EL 2007 EN ADELANTE (.XLSX)
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet = workbook.getSheetAt(0);
+            //XSSFWorkbook workbook = new XSSFWorkbook(file);
+            //XSSFSheet sheet = workbook.getSheetAt(0);
 
             Iterator <Row> rowIterator = sheet.rowIterator();
 
             while(rowIterator.hasNext()){
-                HSSFRow row= (HSSFRow) rowIterator.next();
-                Iterator<Cell> cellIterator = row.cellIterator();
+                try {
+                    HSSFRow row = (HSSFRow) rowIterator.next();
+                    Iterator<Cell> cellIterator = row.cellIterator();
 
-                while(cellIterator.hasNext()){
-                    HSSFCell cell = (HSSFCell) cellIterator.next();
-                    //DB.addOrUpdatePareados();
 
-                    datos = datos + " -- " + cell.toString();
+                    List<String> lista = null;
+                    Pareados par = new Pareados();
+                    while (cellIterator.hasNext()) {
+                        HSSFCell cell = (HSSFCell) cellIterator.next();
+
+
+                        lista.add(cell.toString());
+
+                        datos = datos + " -- " + cell.toString();
+                    }
+                    datos = datos + "\n";
+
+                    par.id_par = Integer.parseInt(lista.get(0));
+                    par.tag_par = lista.get(1);
+                    par.id_item = Integer.parseInt(lista.get(2));
+                    par.id_user = Integer.parseInt(lista.get(3));
+                    par.id_pos = Integer.parseInt(lista.get(4));
+                    par.fec_creacion = lista.get(5);
+                    par.fec_modificacion = lista.get(6);
+                    par.fec_salida = lista.get(7);
+                    par.esSalida = Integer.parseInt(lista.get(8));
+                    DB.addOrUpdatePareados(par);
+                }catch (Exception e){
+                    e.toString();
                 }
-                datos = datos+"\n";
 
             }
             txt_view.setText(datos);// --> esta lina ingresa los datos para que se muestren en una tabla o textview.
