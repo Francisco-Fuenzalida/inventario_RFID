@@ -194,8 +194,9 @@ public class Sincronizacion_activity extends AppCompatActivity {
         }
 
         //Generar un archivo (.xsl)
-        File file = new File(getExternalFilesDir(null), "Datos_De_Prueba.xls");
-
+        //File file = new File(getExternalFilesDir(null), "Datos_De_Prueba.xls");
+        File file = new File( Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Datos.xls");
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 
         //Generar un archivo (.xlsx)
        // File file = new File(getExternalFilesDir(null), "Datos_de_prueba.xlsx");
@@ -204,7 +205,7 @@ public class Sincronizacion_activity extends AppCompatActivity {
         try{
             out = new FileOutputStream(file);
             workbook.write(out);
-            Toast.makeText(this, "OK", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, path, Toast.LENGTH_LONG).show();
 
 
         }catch(IOException e){
@@ -226,64 +227,88 @@ public class Sincronizacion_activity extends AppCompatActivity {
         String datos ="";
 
 
-        try {
-            inputStream = file;
 
-            POIFSFileSystem fileSystem = new POIFSFileSystem(inputStream);
+            try {
+                inputStream = file;
 
-            //PARA ARCHIVOS HASTA EL 2007 (.XLS)
-            HSSFWorkbook workbook = new HSSFWorkbook(fileSystem);
-            HSSFSheet sheet = workbook.getSheetAt(0);
+                POIFSFileSystem fileSystem = new POIFSFileSystem(inputStream);
 
-            //PARA ARCHIVOS DESDE EL 2007 EN ADELANTE (.XLSX)
-            //XSSFWorkbook workbook = new XSSFWorkbook(file);
-            //XSSFSheet sheet = workbook.getSheetAt(0);
+                //PARA ARCHIVOS HASTA EL 2007 (.XLS)
+                HSSFWorkbook workbook = new HSSFWorkbook(fileSystem);
+                HSSFSheet sheet = workbook.getSheetAt(0);
 
-            Iterator <Row> rowIterator = sheet.rowIterator();
+                //PARA ARCHIVOS DESDE EL 2007 EN ADELANTE (.XLSX)
+                //XSSFWorkbook workbook = new XSSFWorkbook(file);
+                //XSSFSheet sheet = workbook.getSheetAt(0);
 
-            while(rowIterator.hasNext()){
-                try {
-                    HSSFRow row = (HSSFRow) rowIterator.next();
-                    Iterator<Cell> cellIterator = row.cellIterator();
-
-
-                    List<String> lista = null;
-                    Pareados par = new Pareados();
-                    while (cellIterator.hasNext()) {
-                        HSSFCell cell = (HSSFCell) cellIterator.next();
+                Iterator<Row> rowIterator = sheet.rowIterator();
+                if (sheet.getRow(2) != null ){
+                    while (rowIterator.hasNext()) {
+                        try {
+                            HSSFRow row = (HSSFRow) rowIterator.next();
+                            Iterator<Cell> cellIterator = row.cellIterator();
 
 
-                        lista.add(cell.toString());
+                            List<String> lista = null;
+                            Pareados par = new Pareados();
+                            while (cellIterator.hasNext()) {
+                                HSSFCell cell = (HSSFCell) cellIterator.next();
 
-                        datos = datos + " -- " + cell.toString();
+
+                                lista.add(cell.toString());
+
+                                datos = datos + " -- " + cell.toString();
+                            }
+                            datos = datos + "\n";
+
+                            if (!lista.get(0).isEmpty()){ par.id_par = Integer.parseInt(lista.get(0)); }
+                            else{ par.id_par =0;}
+
+                            if (!lista.get(1).isEmpty()){ par.tag_par = lista.get(1);}
+                            else{ par.tag_par =""; }
+
+                            if (!lista.get(2).isEmpty()){ par.id_item = Integer.parseInt(lista.get(2)); }
+                            else{ par.id_item =0; }
+
+                            if (!lista.get(3).isEmpty()){ par.id_user = Integer.parseInt(lista.get(3));}
+                            else{ par.id_user =0;  }
+
+                            if (!lista.get(4).isEmpty()){ par.id_pos = Integer.parseInt(lista.get(4)); }
+                            else{ par.id_pos =0;}
+
+                            if (!lista.get(5).isEmpty()){par.fec_creacion = lista.get(5); }
+                            else{ par.fec_creacion ="";}
+
+                            if (!lista.get(6).isEmpty()){par.fec_modificacion = lista.get(6);  }
+                            else{ par.fec_modificacion =""; }
+
+                            if (!lista.get(7).isEmpty()){ par.fec_salida = lista.get(7);  }
+                            else{par.fec_salida = ""; }
+
+                            if (!lista.get(8).isEmpty()){par.esSalida = Integer.parseInt(lista.get(8)); }
+                            else{par.esSalida =0; }
+
+                            DB.addOrUpdatePareados(par);
+                        } catch (Exception e) {
+                            e.toString();
+                        }
+
                     }
-                    datos = datos + "\n";
+                    txt_view.setText(datos);// --> esta lina ingresa los datos para que se muestren en una tabla o textview.
 
-                    par.id_par = Integer.parseInt(lista.get(0));
-                    par.tag_par = lista.get(1);
-                    par.id_item = Integer.parseInt(lista.get(2));
-                    par.id_user = Integer.parseInt(lista.get(3));
-                    par.id_pos = Integer.parseInt(lista.get(4));
-                    par.fec_creacion = lista.get(5);
-                    par.fec_modificacion = lista.get(6);
-                    par.fec_salida = lista.get(7);
-                    par.esSalida = Integer.parseInt(lista.get(8));
-                    DB.addOrUpdatePareados(par);
-                }catch (Exception e){
-                    e.toString();
+
                 }
-
+                else{
+                    Toast.makeText(this, "No existen datos", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            txt_view.setText(datos);// --> esta lina ingresa los datos para que se muestren en una tabla o textview.
-
-            
-
-        }catch (Exception e){
-            e.printStackTrace();
         }
+
 
     }
 
-}
+
 
 
