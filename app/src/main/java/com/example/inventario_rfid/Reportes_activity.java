@@ -1,24 +1,31 @@
 package com.example.inventario_rfid;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Reportes_activity extends AppCompatActivity{
+public class Reportes_activity extends AppCompatActivity {
 
     static TextView dateText;
     static TextView dateText2;
@@ -76,11 +83,13 @@ public class Reportes_activity extends AppCompatActivity{
         });
 
         Button btn_volver = (Button) findViewById(R.id.btn_volver_repor);
-        btn_volver.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        btn_volver.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 finish();
             }
         });
+
+
     }
 
     public static class DatePickerFragment1 extends DialogFragment
@@ -97,6 +106,7 @@ public class Reportes_activity extends AppCompatActivity{
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
+
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // get selected date
             mYear1 = year;
@@ -109,12 +119,12 @@ public class Reportes_activity extends AppCompatActivity{
                     .append(mDay1).append(" "));
         }
     }
+
     public static class DatePickerFragment2 extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener{
+            implements DatePickerDialog.OnDateSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // set default date
-
 
 
             //Date Time NOW
@@ -126,6 +136,7 @@ public class Reportes_activity extends AppCompatActivity{
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
+
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // get selected date
             mYear2 = year;
@@ -142,58 +153,58 @@ public class Reportes_activity extends AppCompatActivity{
     }
 
 
+    public void MostrarDatos(String DateText1, String DateText2) throws ParseException {
+        Context context = getApplicationContext();
+        TableLayout tbl_datos = (TableLayout) findViewById(R.id.tbl_datos);
+        try {
+            if (ValidacionDatos(DateText1, DateText2)) {
+
+                // AÑADIR LAS QUERYS PARA HACER EL SELECT E INSERTAR EN LA TABLA VISUALMENTE.
+                TableRow fila =new TableRow(this);
+
+                //Con esta seccion se añaden los datos desde la tabla de bd hacia acá
+
+                //tbl_datos.addView();
 
 
-        public void MostrarDatos (String DateText1, String DateText2) throws ParseException {
-            Context context = getApplicationContext();
-            try{
-                if (ValidacionDatos(DateText1, DateText2)){
-
-                    // AÑADIR LAS QUERYS PARA HACER EL SELECT E INSERTAR EN LA TABLA VISUALMENTE.
-
-
-                }
-                else{
-                    Toast.makeText(context, "Datos No Válidos", Toast.LENGTH_SHORT).show();
-             }}
-            catch (ParseException e){
-                e.printStackTrace();
-                throw e;
-           }
-
+            } else {
+                Toast.makeText(context, "Datos No Válidos", Toast.LENGTH_SHORT).show();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw e;
         }
 
-        public boolean ValidacionDatos (String DateText1, String DateText2) throws ParseException {
-            Boolean EsValido = false;
-            Context context = getApplicationContext();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date strDate = sdf.parse(DateText1);
-            Date strDate2 = sdf.parse(DateText2);
-            if (DateText1.isEmpty() && DateText2.isEmpty()){
-               //Ambas fechas se encuentran vacias
-                Toast.makeText(context, "Ambas fechas se encuentran vacias", Toast.LENGTH_SHORT).show();
-            }
-            else if (DateText1.isEmpty()){
-                // Mostrar un diagolo de que la fecha 1 está vacia
-                Toast.makeText(context, "La fecha de Inicio se encuentra vacia", Toast.LENGTH_SHORT).show();
-            }
-            else if (DateText2.isEmpty()){
-                //Mostrar un dialogo que la fecha2 está vacia
-                Toast.makeText(context, "La fecha de Fin se encuentra vacia", Toast.LENGTH_SHORT).show();
-            }
-            else if  (!strDate2.after(strDate)){
-               //Mostrar un dialogo que la fecha 2 es antes que la primera
-                Toast.makeText(context, "La fecha de Fin no puede ser anterior a la de Inicio", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                EsValido = true;
-                Toast.makeText(context, "Fechas Correctas", Toast.LENGTH_SHORT).show();
-            }
-
-            return EsValido;
-        }
     }
+
+    public boolean ValidacionDatos(String DateText1, String DateText2) throws ParseException {
+        Boolean EsValido = false;
+        Context context = getApplicationContext();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date strDate = sdf.parse(DateText1);
+        Date strDate2 = sdf.parse(DateText2);
+        if (DateText1.isEmpty() && DateText2.isEmpty()) {
+            //Ambas fechas se encuentran vacias
+            Toast.makeText(context, "Ambas fechas se encuentran vacias", Toast.LENGTH_SHORT).show();
+        } else if (DateText1.isEmpty()) {
+            // Mostrar un diagolo de que la fecha 1 está vacia
+            Toast.makeText(context, "La fecha de Inicio se encuentra vacia", Toast.LENGTH_SHORT).show();
+        } else if (DateText2.isEmpty()) {
+            //Mostrar un dialogo que la fecha2 está vacia
+            Toast.makeText(context, "La fecha de Fin se encuentra vacia", Toast.LENGTH_SHORT).show();
+        } else if (!strDate2.after(strDate)) {
+            //Mostrar un dialogo que la fecha 2 es antes que la primera
+            Toast.makeText(context, "La fecha de Fin no puede ser anterior a la de Inicio", Toast.LENGTH_SHORT).show();
+        } else {
+            EsValido = true;
+            Toast.makeText(context, "Fechas Correctas", Toast.LENGTH_SHORT).show();
+        }
+
+        return EsValido;
+    }
+
+}
 
 
 

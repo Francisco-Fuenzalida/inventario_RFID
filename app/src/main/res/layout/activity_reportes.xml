@@ -102,6 +102,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_fecha_ini" />
 
     <TableLayout
+        android:id="@+id/tbl_datos"
         android:layout_width="418dp"
         android:layout_height="384dp"
         android:layout_marginTop="216dp"
@@ -166,7 +167,7 @@
                 android:layout_weight="1"
                 android:background="#000000"
                 android:gravity="center"
-                android:text="nose"
+                android:text="Es Salida"
                 android:textColor="#FFFFFF" />
         </TableRow>
 
