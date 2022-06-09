@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -1182,6 +1184,62 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
         return pareados;
+    }
+
+    @SuppressLint("Range")
+    public List<PareadosFecha> PareadosFecha(String Fecha1,String Fecha2) {
+        List<PareadosFecha> parsf = new ArrayList<>();
+
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s INNER JOIN %s ON %s.%s = %s.%s",
+                        TABLE_PAREADOS,
+                        TABLE_ITEM,
+                        TABLE_ITEM,
+                        KEY_ITEM_ID,
+                        TABLE_PAREADOS,
+                        KEY_PAREADOS_ITEM
+                        );
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Date dateI = new SimpleDateFormat("dd/MM/yyyy").parse(Fecha1);
+                    Date dateF = new SimpleDateFormat("dd/MM/yyyy").parse(Fecha2);
+                    Date date =new SimpleDateFormat("dd/MM/yyyy").parse( cursor.getString(cursor.getColumnIndex(KEY_PAREADOS_MODIFICACION)));
+                    if(date.compareTo(dateI) > 0 && date.compareTo(dateF) < 0)
+                    {
+                        PareadosFecha newPareadosFecha = new PareadosFecha();
+                        newPareadosFecha.id_pf = cursor.getInt(cursor.getColumnIndex(KEY_PAREADOS_ID));
+                        newPareadosFecha.tag_pf = cursor.getString(cursor.getColumnIndex(KEY_PAREADOS_PAR));
+                        newPareadosFecha.item_pf = cursor.getString(cursor.getColumnIndex(KEY_ITEM_DESC));
+                        newPareadosFecha.fecha_pf = cursor.getString(cursor.getColumnIndex(KEY_PAREADOS_MODIFICACION));
+                        if(cursor.getInt(cursor.getColumnIndex(KEY_PAREADOS_POS)) == 1)
+                        {
+                            newPareadosFecha.esSalida = "Salida";
+                        }
+                        else {
+                            newPareadosFecha.esSalida = "En Stock";
+                        }
+
+
+                        parsf.add(newPareadosFecha);
+                    }
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return parsf;
     }
     @SuppressLint("Range")
     public Pareados getPareados(String tag) {
