@@ -3,14 +3,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 30
     buildToolsVersion "32.0.0"
 
 
     defaultConfig {
         applicationId "com.example.inventario_rfid"
-        minSdkVersion 29
-        targetSdkVersion 32
+        minSdkVersion 26
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -40,17 +40,15 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
-    implementation project(path: ':RFIDAPI3Library')
-    implementation project(':RFIDAPI3Library')
     //Implementacion que añade SQLiteToExcel
     implementation 'com.ajts.androidmads.SQLite2Excel:library:1.0.4'
+    implementation project(path: ':RFIDAPI3Library')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'org.apache.poi:poi:4.0.0'
     implementation 'org.apache.poi:poi-ooxml:4.0.0'
     implementation "androidx.recyclerview:recyclerview:1.2.1"
-    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
 
