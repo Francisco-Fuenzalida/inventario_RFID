@@ -99,7 +99,7 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
             Log.d(TAG, "CreateInstanceTask");
             // Based on support available on host device choose the reader type
             InvalidUsageException invalidUsageException = null;
-            readers = new Readers(context, ENUM_TRANSPORT.SERVICE_USB);
+            readers = new Readers(context, ENUM_TRANSPORT.SERVICE_SERIAL);
             try {
                 availableRFIDReaderList = readers.GetAvailableRFIDReaderList();
             } catch (InvalidUsageException e) {
