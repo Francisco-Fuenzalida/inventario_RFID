@@ -238,6 +238,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_USER_SURNAME_MOTHER+','+KEY_USER_RUT+','+KEY_USER_DV+','+KEY_USER_SECRET_ANSWER+','+KEY_USER_PROFILE_ID+','+KEY_USER_SECRET_QUESTION_ID + ") VALUES" +
                 "('tester','tester','Tester','Testington','Testeani','19999999','1','tester',1,1)";
 
+        String INSERT_CATEGORY = "INSERT INTO " + TABLE_CATEGORIA + " (" + KEY_CATEGORIA_DESC + ") VALUES('Categoria')";
+
+        String INSERT_SUBCATEGORY_TABLE = "INSERT INTO " + TABLE_SUBCATEGORIA + " ("+KEY_SUBCATEGORIA_CAT+','+KEY_SUBCATEGORIA_DESC + ") VALUES(0,'Subcategoria')";
+        String INSERT_ITEM_1 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Zapato')";
+        String INSERT_ITEM_2 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Gorra')";
+        String INSERT_ITEM_3 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Pantalon')";
+        String INSERT_ITEM_4 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Polera')";
+
+
 
         DB.execSQL(CREATE_PROFILE_TABLE);
         DB.execSQL(CREATE_USERS_TABLE);
@@ -257,6 +266,12 @@ public class DBHelper extends SQLiteOpenHelper {
         DB.execSQL(INSERT_SECURITY_QUESTIONS_TABLE);
         DB.execSQL(INSERT_PERFIL_TABLE);
         DB.execSQL(INSERT_USER_TABLE);
+        DB.execSQL(INSERT_CATEGORY);
+        DB.execSQL(INSERT_SUBCATEGORY_TABLE);
+        DB.execSQL(INSERT_ITEM_1);
+        DB.execSQL(INSERT_ITEM_2);
+        DB.execSQL(INSERT_ITEM_3);
+        DB.execSQL(INSERT_ITEM_4);
     }
 
     @Override
@@ -469,6 +484,23 @@ public class DBHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
         return itemId;
+    }
+
+    public Boolean deleteDetails(String tableName,String column,String val){
+        SQLiteDatabase db=getWritableDatabase();
+        String whereClause=column+"=?";
+        String whereArgs[]={val};
+
+        int id=db.delete(tableName,whereClause,whereArgs);
+        if(id>0){
+
+            return true;
+
+        }else{
+
+            return  false;
+
+        }
     }
 
     public long addOrUpdateConfiguracion(Configuracion configuracion) {
