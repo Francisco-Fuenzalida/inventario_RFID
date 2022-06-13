@@ -35,6 +35,9 @@
     <string name="sincronizacion">Sincronización</string>
     <!--  strings utilizados para tabla en activity_configuracion.xml  -->
     <string name="configuracion">Configuración</string>
+    <string name="nombre_categoria">Nombre Categoría</string>
+    <string name="nombre_subcategoria">Nombre Subcategoría</string>
+    <string name="nombre_item">Nombre Ítem</string>
     <!--  strings utilizados en activity_registrarse.xml  -->
     <string name="confirmar_contrasena">Confirmar Contraseña</string>
     <string name="nombre">Nombre</string>
@@ -53,6 +56,12 @@
     <string name="btn_exportar">EXPORTAR</string>
     <string name="btn_buscar_usuario">BUSCAR USUARIO</string>
     <string name="btn_recuperar_cuenta">RECUPERAR CUENTA</string>
+    <string name="btn_conf_categoria">CATEGORIAS</string>
+    <string name="btn_conf_sub_categoria">SUBCATEGORIAS</string>
+    <string name="btn_conf_producto">ÍTEMS</string>
+    <string name="btn_agregar">AGREGAR</string>
+    <string name="btn_eliminar">ELIMINAR</string>
+    <string name="btn_confirmar">CONFIRMAR</string>
 
     <string name="file_path" />
 </resources>

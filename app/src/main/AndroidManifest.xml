@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Inventario_RFID.NoActionBar">
-        <activity android:name=".Recuperar_contrasena_activity"></activity>
+        <activity android:name=".Configuracion_item_activity"></activity>
+        <activity android:name=".Configuracion_subcategoria_activity" />
+        <activity android:name=".configuracion_categorias" />
+        <activity android:name=".Recuperar_contrasena_activity" />
         <activity android:name=".Registrarse_activity" />
         <activity android:name=".ConfiguracionActivity" />
         <activity android:name=".Reportes_activity" />

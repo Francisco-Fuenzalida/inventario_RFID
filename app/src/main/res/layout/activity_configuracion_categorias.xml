@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".configuracion_categorias">
+
+    <Button
+        android:id="@+id/btn_volver_setting_categoria"
+        android:layout_width="108dp"
+        android:layout_height="53dp"
+        android:text="@string/btn_volver"
+        app:backgroundTint="#292828"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_categoria_agregar"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:onClick="btn_agregar"
+            android:text="@string/btn_agregar"
+            app:backgroundTint="#292828" />
+
+        <Button
+            android:id="@+id/btn_categoria_eliminar"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:onClick="btn_eliminar"
+            android:text="@string/btn_eliminar"
+            app:backgroundTint="#292828" />
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/id_categoria_spinner"
+        android:layout_width="349dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:ignore="MissingConstraints" />
+
+
+    <Button
+        android:id="@+id/btn_confirmar_eliminar_categoria"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/btn_confirmar"
+        android:visibility="gone"
+        app:backgroundTint="#292828"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_categoria_spinner" />
+
+    <EditText
+        android:id="@+id/id_categoria_et"
+        android:layout_width="349dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="@string/nombre_categoria"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btn_confirmar_agregar_categoria"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:onClick="btn_confirmar_agregar"
+        android:text="@string/btn_confirmar"
+        android:visibility="gone"
+        app:backgroundTint="#292828"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_categoria_et" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

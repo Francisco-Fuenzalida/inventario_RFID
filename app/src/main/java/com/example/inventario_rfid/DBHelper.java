@@ -238,14 +238,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_USER_SURNAME_MOTHER+','+KEY_USER_RUT+','+KEY_USER_DV+','+KEY_USER_SECRET_ANSWER+','+KEY_USER_PROFILE_ID+','+KEY_USER_SECRET_QUESTION_ID + ") VALUES" +
                 "('tester','tester','Tester','Testington','Testeani','19999999','1','tester',1,1)";
 
-        String INSERT_CATEGORY = "INSERT INTO " + TABLE_CATEGORIA + " (" + KEY_CATEGORIA_DESC + ") VALUES('Categoria')";
+        String INSERT_CATEGORIA_TABLE = "INSERT INTO " + TABLE_CATEGORIA + " (" + KEY_CATEGORIA_DESC + ") VALUES" +
+                "('Escoja una categoría:')";
 
-        String INSERT_SUBCATEGORY_TABLE = "INSERT INTO " + TABLE_SUBCATEGORIA + " ("+KEY_SUBCATEGORIA_CAT+','+KEY_SUBCATEGORIA_DESC + ") VALUES(0,'Subcategoria')";
-        String INSERT_ITEM_1 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Zapato')";
-        String INSERT_ITEM_2 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Gorra')";
-        String INSERT_ITEM_3 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Pantalon')";
-        String INSERT_ITEM_4 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Polera')";
+        String INSERT_SUBCATEGORY_TABLE = "INSERT INTO " + TABLE_SUBCATEGORIA + " ("+KEY_SUBCATEGORIA_DESC + ") VALUES" +
+                "('')";
 
+        String INSERT_ITEM_TABLE = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_DESC + ") VALUES" +
+                "('')";
 
 
         DB.execSQL(CREATE_PROFILE_TABLE);
@@ -266,12 +266,10 @@ public class DBHelper extends SQLiteOpenHelper {
         DB.execSQL(INSERT_SECURITY_QUESTIONS_TABLE);
         DB.execSQL(INSERT_PERFIL_TABLE);
         DB.execSQL(INSERT_USER_TABLE);
-        DB.execSQL(INSERT_CATEGORY);
+        DB.execSQL(INSERT_CATEGORIA_TABLE);
         DB.execSQL(INSERT_SUBCATEGORY_TABLE);
-        DB.execSQL(INSERT_ITEM_1);
-        DB.execSQL(INSERT_ITEM_2);
-        DB.execSQL(INSERT_ITEM_3);
-        DB.execSQL(INSERT_ITEM_4);
+        DB.execSQL(INSERT_ITEM_TABLE);
+
     }
 
     @Override
@@ -992,6 +990,41 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return item;
     }
+
+    @SuppressLint("Range")
+    public List<Item> getAllItemWhereId(int id) {
+        List<Item> item = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s WHERE id_sbc=%s",
+                        TABLE_ITEM, id);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Item newItem = new Item();
+                    newItem.id_item = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_ID));
+                    newItem.desc_item = cursor.getString(cursor.getColumnIndex(KEY_ITEM_DESC));
+                    newItem.id_sbc = cursor.getInt(cursor.getColumnIndex(KEY_ITEM_SBC));
+
+                    item.add(newItem);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return item;
+    }
+
     @SuppressLint("Range")
     public Item getItem(String item) {
         List<Item> items = getAllItem();
@@ -1084,6 +1117,41 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return subcategoria;
     }
+
+    @SuppressLint("Range")
+    public List<Subcategoria> getAllSubcategoriaWhereId(int id) {
+        List<Subcategoria> subcategoria = new ArrayList<>();
+
+        String POSTS_SELECT_QUERY =
+                String.format("SELECT * FROM %s WHERE id_cat=%s",
+                        TABLE_SUBCATEGORIA, id);
+
+        // "getReadableDatabase()" and "getWriteableDatabase()" return the same object (except under low
+        // disk space scenarios)
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(POSTS_SELECT_QUERY, null);
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Subcategoria newSubcategoria = new Subcategoria();
+                    newSubcategoria.id_sbc = cursor.getInt(cursor.getColumnIndex(KEY_SUBCATEGORIA_ID));
+                    newSubcategoria.des_sbc = cursor.getString(cursor.getColumnIndex(KEY_SUBCATEGORIA_DESC));
+                    newSubcategoria.id_cat = cursor.getInt(cursor.getColumnIndex(KEY_SUBCATEGORIA_CAT));
+
+                    subcategoria.add(newSubcategoria);
+
+                } while(cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            ;
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+        return subcategoria;
+    }
+
     @SuppressLint("Range")
     public Subcategoria getSubcategoria(String subcategoria) {
         List<Subcategoria> Subcategoria = getAllSubcategoria();
@@ -1165,6 +1233,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return categoria;
     }
+
     @SuppressLint("Range")
     public Categoria getCategoria(String perfil) {
         List<Categoria> cats = getAllCategoria();
