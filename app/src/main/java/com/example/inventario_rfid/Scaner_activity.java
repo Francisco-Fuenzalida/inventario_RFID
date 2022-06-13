@@ -13,7 +13,11 @@ import android.view.MenuItem;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -94,8 +98,29 @@ public class Scaner_activity extends AppCompatActivity implements RFIDHandler.Re
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_SHORT).show();
-//                textrfid.append(sb.toString());
+                try {
+
+                    Item itm = DBH.getItem(itemSpin.getSelectedItem().toString());
+                    Pareados par = new Pareados();
+                    par.tag_par = sb.toString();
+                    par.esSalida = 0;
+                    par.id_item = itm.id_item;
+                    par.id_pos = DBH.getPosicion("BODEGA_A").id_pos;
+                    par.id_user = 0; //TODO
+                    par.fec_salida = "";
+                    Calendar cal = Calendar.getInstance();
+                    Date date = cal.getTime();
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                    String dt = formatter.format(date);
+                    par.fec_creacion = dt;
+                    par.fec_modificacion = dt;
+                    DBH.addOrUpdatePareados(par);
+                    Toast.makeText(getApplicationContext(), sb.toString() + " pareado correctamente", Toast.LENGTH_SHORT).show();
+                }
+                catch(Exception e)
+                {
+                    Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

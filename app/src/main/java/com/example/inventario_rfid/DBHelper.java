@@ -246,7 +246,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String INSERT_ITEM_3 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Pantalon')";
         String INSERT_ITEM_4 = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_SBC+','+KEY_ITEM_DESC + ") VALUES(0,'Polera')";
 
-
+        String INSERT_POSITION = "INSERT INTO " + TABLE_POSICION + " (" + KEY_POSICION_DESC + ") VALUES('BODEGA_A')";
 
         DB.execSQL(CREATE_PROFILE_TABLE);
         DB.execSQL(CREATE_USERS_TABLE);
@@ -272,6 +272,7 @@ public class DBHelper extends SQLiteOpenHelper {
         DB.execSQL(INSERT_ITEM_2);
         DB.execSQL(INSERT_ITEM_3);
         DB.execSQL(INSERT_ITEM_4);
+        DB.execSQL(INSERT_POSITION);
     }
 
     @Override
