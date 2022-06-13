@@ -244,8 +244,11 @@ public class DBHelper extends SQLiteOpenHelper {
         String INSERT_SUBCATEGORY_TABLE = "INSERT INTO " + TABLE_SUBCATEGORIA + " ("+KEY_SUBCATEGORIA_DESC + ") VALUES" +
                 "('')";
 
+
         String INSERT_ITEM_TABLE = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_DESC + ") VALUES" +
                 "('')";
+
+        String INSERT_POSITION = "INSERT INTO " + TABLE_POSICION + " (" + KEY_POSICION_DESC + ") VALUES('BODEGA_A')";
 
 
         DB.execSQL(CREATE_PROFILE_TABLE);
@@ -269,7 +272,7 @@ public class DBHelper extends SQLiteOpenHelper {
         DB.execSQL(INSERT_CATEGORIA_TABLE);
         DB.execSQL(INSERT_SUBCATEGORY_TABLE);
         DB.execSQL(INSERT_ITEM_TABLE);
-
+        DB.execSQL(INSERT_POSITION);
     }
 
     @Override

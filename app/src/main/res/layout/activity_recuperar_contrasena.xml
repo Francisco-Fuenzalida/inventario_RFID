@@ -9,17 +9,17 @@
 
     <EditText
         android:id="@+id/id_email_2"
-        android:layout_width="349dp"
-        android:layout_height="47dp"
+        android:layout_width="343dp"
+        android:layout_height="45dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textPersonName"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.664"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />

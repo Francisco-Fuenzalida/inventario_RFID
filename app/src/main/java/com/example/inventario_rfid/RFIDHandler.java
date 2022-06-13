@@ -3,6 +3,7 @@ package com.example.inventario_rfid;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
 import com.zebra.rfid.api3.ACCESS_OPERATION_STATUS;
@@ -27,7 +28,10 @@ import com.zebra.rfid.api3.STOP_TRIGGER_TYPE;
 import com.zebra.rfid.api3.TagData;
 import com.zebra.rfid.api3.TriggerInfo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 class RFIDHandler implements Readers.RFIDReaderEventHandler {
 
@@ -208,9 +212,6 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
     private void ConfigureReader() {
         Log.d(TAG, "ConfigureReader " + reader.getHostName());
         if (reader.isConnected()) {
-            TriggerInfo triggerInfo = new TriggerInfo();
-            triggerInfo.StartTrigger.setTriggerType(START_TRIGGER_TYPE.START_TRIGGER_TYPE_IMMEDIATE);
-            triggerInfo.StopTrigger.setTriggerType(STOP_TRIGGER_TYPE.STOP_TRIGGER_TYPE_IMMEDIATE);
             try {
                 // receive events from reader
                 if (eventHandler == null)
@@ -220,26 +221,29 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
                 reader.Events.setHandheldEvent(true);
                 // tag event with tag data
                 reader.Events.setTagReadEvent(true);
-                reader.Events.setAttachTagDataWithReadEvent(false);
-                // set trigger mode as rfid so scanner beam will not come
-                reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, true);
-                // set start and stop triggers
-                reader.Config.setStartTrigger(triggerInfo.StartTrigger);
-                reader.Config.setStopTrigger(triggerInfo.StopTrigger);
+                reader.Events.setAttachTagDataWithReadEvent(true);
+
+                TriggerInfo ti = new TriggerInfo();
+                ti.setTagReportTrigger(1);
+                ti.setEnableTagEventReport(true);
+                ti.StartTrigger.setTriggerType(START_TRIGGER_TYPE.START_TRIGGER_TYPE_IMMEDIATE);
+                ti.StartTrigger.Handheld.setHandheldTriggerEvent(HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_PRESSED);
+                ti.StopTrigger.setTriggerType(STOP_TRIGGER_TYPE.STOP_TRIGGER_TYPE_IMMEDIATE);
+                ti.StopTrigger.Handheld.setHandheldTriggerEvent(HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_RELEASED);
+                ti.StopTrigger.Handheld.setHandheldTriggerTimeout(0);
+
+                reader.Config.setStartTrigger(ti.StartTrigger);
+                reader.Config.setStopTrigger(ti.StopTrigger);
+
                 // power levels are index based so maximum power supported get the last one
                 MAX_POWER = reader.ReaderCapabilities.getTransmitPowerLevelValues().length - 1;
                 // set antenna configurations
                 Antennas.AntennaRfConfig config = reader.Config.Antennas.getAntennaRfConfig(1);
-                config.setTransmitPowerIndex(MAX_POWER);
-                config.setrfModeTableIndex(0);
-                config.setTari(0);
+                config.setTransmitPowerIndex(50);
+                config.setTransmitFrequencyIndex((short)1);
+                config.setReceiveSensitivityIndex((short)0);
                 reader.Config.Antennas.setAntennaRfConfig(1, config);
-                // Set the singulation control
-                Antennas.SingulationControl s1_singulationControl = reader.Config.Antennas.getSingulationControl(1);
-                s1_singulationControl.setSession(SESSION.SESSION_S0);
-                s1_singulationControl.Action.setInventoryState(INVENTORY_STATE.INVENTORY_STATE_A);
-                s1_singulationControl.Action.setSLFlag(SL_FLAG.SL_ALL);
-                reader.Config.Antennas.setSingulationControl(1, s1_singulationControl);
+
                 // delete any prefilters
                 reader.Actions.PreFilters.deleteAll();
                 //
@@ -314,8 +318,9 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
     public class EventHandler implements RfidEventsListener {
         // Read Event Notification
         public void eventReadNotify(RfidReadEvents e) {
+            new AsyncDataUpdate().execute(e.getReadEventData().tagData.getTagID());
             // Recommended to use new method getReadTagsEx for better performance in case of large tag population
-            TagData[] myTags = reader.Actions.getReadTags(100);
+            /*TagData[] myTags = reader.Actions.getReadTags(100);
             if (myTags != null) {
                 for (int index = 0; index < myTags.length; index++) {
                     Log.d(TAG, "Tag ID " + myTags[index].getTagID());
@@ -332,8 +337,10 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
                 }
                 // possibly if operation was invoked from async task and still busy
                 // handle tag data responses on parallel thread thus THREAD_POOL_EXECUTOR
-                new AsyncDataUpdate().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, myTags);
-            }
+
+
+
+            }*/
         }
 
         // Status Event Notification
@@ -341,33 +348,29 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
             Log.d(TAG, "Status Notification: " + rfidStatusEvents.StatusEventData.getStatusEventType());
             if (rfidStatusEvents.StatusEventData.getStatusEventType() == STATUS_EVENT_TYPE.HANDHELD_TRIGGER_EVENT) {
                 if (rfidStatusEvents.StatusEventData.HandheldTriggerEventData.getHandheldEvent() == HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_PRESSED) {
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-                            context.handleTriggerPress(true);
-                            return null;
-                        }
-                    }.execute();
+
+                    performInventory();
                 }
                 if (rfidStatusEvents.StatusEventData.HandheldTriggerEventData.getHandheldEvent() == HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_RELEASED) {
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-                            context.handleTriggerPress(false);
-                            return null;
-                        }
-                    }.execute();
+                    stopInventory();
                 }
             }
         }
     }
 
-    private class AsyncDataUpdate extends AsyncTask<TagData[], Void, Void> {
+    public class AsyncDataUpdate extends AsyncTask<String, String, String> {
+        String valortag = "";
         @Override
-        protected Void doInBackground(TagData[]... params) {
-            context.handleTagdata(params[0]);
-            return null;
+        protected String doInBackground(String... params) {
+            valortag = params[0];
+            return params[0];
         }
+
+        @Override
+        protected void onPostExecute(String result) {
+            context.registerread(result);
+        }
+
     }
 
     interface ResponseHandlerInterface {

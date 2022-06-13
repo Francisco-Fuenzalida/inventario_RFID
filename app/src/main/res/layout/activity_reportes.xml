@@ -20,8 +20,8 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="133dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:gravity="center"
         android:text="@string/datos"
@@ -34,8 +34,8 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="127dp"
-        android:layout_height="57dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="181dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="191dp"
@@ -51,8 +51,8 @@
 
     <TextView
         android:id="@+id/txt_fecha_ini"
-        android:layout_width="141dp"
-        android:layout_height="36dp"
+        android:layout_width="113dp"
+        android:layout_height="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:background="@android:drawable/editbox_background"
@@ -64,8 +64,8 @@
 
     <TextView
         android:id="@+id/txt_btn_ini"
-        android:layout_width="120dp"
-        android:layout_height="34dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="24dp"
         android:text="@string/fecha_inicial"
@@ -76,8 +76,8 @@
 
     <TextView
         android:id="@+id/txt_btn_fin"
-        android:layout_width="120dp"
-        android:layout_height="34dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="20dp"
         android:text="@string/fecha_final"
@@ -88,26 +88,28 @@
 
     <TextView
         android:id="@+id/txt_fecha_fin"
-        android:layout_width="141dp"
-        android:layout_height="36dp"
+        android:layout_width="113dp"
+        android:layout_height="24dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
 
         android:background="@android:drawable/editbox_background"
         android:shadowColor="@color/black"
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.105"
         app:layout_constraintStart_toEndOf="@+id/txt_btn_fin"
         app:layout_constraintTop_toBottomOf="@+id/txt_fecha_ini" />
 
     <TableLayout
         android:id="@+id/tbl_datos"
-        android:layout_width="418dp"
-        android:layout_height="384dp"
+        android:layout_width="323dp"
+        android:layout_height="331dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="216dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6">
 
