@@ -69,6 +69,33 @@ public class Scaner_activity extends AppCompatActivity implements RFIDHandler.Re
         itemSpin.setAdapter(x);
     }
 
+    public void registerread(String tagid) {
+        final StringBuilder sb = new StringBuilder();
+        try {
+            sb.append(tagid + "\n");
+            Item itm = DBH.getItem(itemSpin.getSelectedItem().toString());
+            Pareados par = new Pareados();
+            par.tag_par = sb.toString();
+            par.esSalida = 0;
+            par.id_item = itm.id_item;
+            par.id_pos = DBH.getPosicion("BODEGA_A").id_pos;
+            par.id_user = 0; //TODO
+            par.fec_salida = "";
+            Calendar cal = Calendar.getInstance();
+            Date date = cal.getTime();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String dt = formatter.format(date);
+            par.fec_creacion = dt;
+            par.fec_modificacion = dt;
+            DBH.addOrUpdatePareados(par);
+            //textrfid.setText(sb.toString());
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -91,36 +118,11 @@ public class Scaner_activity extends AppCompatActivity implements RFIDHandler.Re
 
     @Override
     public void handleTagdata(TagData[] tagData) {
-        final StringBuilder sb = new StringBuilder();
-        for (int index = 0; index < tagData.length; index++) {
-            sb.append(tagData[index].getTagID() + "\n");
-        }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                try {
 
-                    Item itm = DBH.getItem(itemSpin.getSelectedItem().toString());
-                    Pareados par = new Pareados();
-                    par.tag_par = sb.toString();
-                    par.esSalida = 0;
-                    par.id_item = itm.id_item;
-                    par.id_pos = DBH.getPosicion("BODEGA_A").id_pos;
-                    par.id_user = 0; //TODO
-                    par.fec_salida = "";
-                    Calendar cal = Calendar.getInstance();
-                    Date date = cal.getTime();
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                    String dt = formatter.format(date);
-                    par.fec_creacion = dt;
-                    par.fec_modificacion = dt;
-                    DBH.addOrUpdatePareados(par);
-                    Toast.makeText(getApplicationContext(), sb.toString() + " pareado correctamente", Toast.LENGTH_SHORT).show();
-                }
-                catch(Exception e)
-                {
-                    Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
