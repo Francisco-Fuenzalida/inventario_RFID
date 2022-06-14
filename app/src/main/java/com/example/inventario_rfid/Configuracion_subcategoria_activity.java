@@ -53,6 +53,7 @@ public class Configuracion_subcategoria_activity extends AppCompatActivity {
                     return true;
                 }
             }
+
             @Override
             public View getDropDownView(int position, View convertView,
                                         ViewGroup parent) {
@@ -120,36 +121,50 @@ public class Configuracion_subcategoria_activity extends AppCompatActivity {
         }
     }
 
-    // Método para validar la subcategoria a agregar o eliminar
-    public boolean validarSubcategoria(String subcategoria, String desc_categoria) {
-        String categoria_defecto = "Escoja una categoría:";
-
-        if (subcategoria.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "No ingreso ningúna subcategoría", Toast.LENGTH_SHORT).show();
-        } else if (desc_categoria.equals(categoria_defecto)){
-            Toast.makeText(getApplicationContext(), "No selecciono ningúna categoría", Toast.LENGTH_SHORT).show();
-        } else {
-            return true;
-        }
-        return false;
-    }
-
     // Método boton btn_confirmar_agregar
-    public void btn_confirmar_agregar(View view) {
+    public void btn_confirmar_agregar_subcategoria(View view) {
         DBHelper DBH = DBHelper.getInstance(getApplicationContext());
         String desc_subcategoria = et_subcategoria.getText().toString();
-        String categoria_selec = sp_categoria.getSelectedItem().toString();
-        Categoria categoria = DBH.getCategoria(categoria_selec);
+        String categoria_selected = sp_categoria.getSelectedItem().toString();
+        Categoria categoria = DBH.getCategoria(categoria_selected);
         int id_categoria = categoria.id_cat;
-        boolean validada_subcategoria = validarSubcategoria(desc_subcategoria, categoria.desc_cat);
-        if (validada_subcategoria) {
+        String desc_categoria = categoria.desc_cat;
+        if (desc_subcategoria.isEmpty()) {
+            Toast.makeText(this, "Debe ingresar una subcategoría", Toast.LENGTH_SHORT).show();
+        } else if (desc_categoria.equals("Escoja una categoría:")){
+            Toast.makeText(getApplicationContext(), "No selecciono ningúna categoría", Toast.LENGTH_SHORT).show();
+        } else {
             Subcategoria subcategoria = new Subcategoria();
             subcategoria.des_sbc = desc_subcategoria;
             subcategoria.id_cat = id_categoria;
             DBH.addOrUpdateSubcategoria(subcategoria);
-            Toast.makeText(getApplicationContext(), "Subcategoría agregada con éxito", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "Error al intentar ingresar subcategoría", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Subategoría agregada con éxito", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(getIntent());
+        }
+    }
+
+    // Método btn_confirmar_eliminar
+    public void btn_confirmar_eliminar_subcategoria(View view) {
+        try {
+            DBHelper DBH = DBHelper.getInstance(getApplicationContext());
+            String tabla = "subcategoria";
+            String columna = "desc_sbc";
+            String categoria_selec = sp_categoria.getSelectedItem().toString();
+            Categoria categoria = DBH.getCategoria(categoria_selec);
+            String subcategoria_selec = sp_subcategoria.getSelectedItem().toString();
+            Subcategoria subcategoria = DBH.getSubcategoria(subcategoria_selec);
+            String valor = subcategoria.des_sbc;
+            if (categoria.desc_cat.equals("Escoja una categoría:")) {
+                Toast.makeText(this, "Debe seleccionar una categoría", Toast.LENGTH_SHORT).show();
+            } else {
+                DBH.deleteDetails(tabla, columna, valor);
+                Toast.makeText(this, "Categoría borrada con éxito", Toast.LENGTH_SHORT).show();
+                finish();
+                startActivity(getIntent());
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Ingrese subcategoria", Toast.LENGTH_SHORT).show();
         }
     }
 }

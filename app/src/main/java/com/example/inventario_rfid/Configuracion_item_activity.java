@@ -153,7 +153,7 @@ public class Configuracion_item_activity extends AppCompatActivity {
 
         if (item.isEmpty()) {
             Toast.makeText(getApplicationContext(), "No ingreso ningún ítem", Toast.LENGTH_SHORT).show();
-        } else if (desc_categoria.equals(categoria_defecto)){
+        } else if (desc_categoria.equals(categoria_defecto)) {
             Toast.makeText(getApplicationContext(), "No selecciono ningúna categoría", Toast.LENGTH_SHORT).show();
         } else {
             return true;
@@ -163,22 +163,48 @@ public class Configuracion_item_activity extends AppCompatActivity {
 
     // Método para el btn_condifrmar que agrega un nuevo itme
     public void btn_agregar_item(View view) {
-        DBHelper DBH = DBHelper.getInstance(getApplicationContext());
-        String item_desc = et_item.getText().toString();
-        String categoria_selec = sp_categoria_agregar.getSelectedItem().toString();
-        Categoria categoria = DBH.getCategoria(categoria_selec);
-        String subcategoria_selec = sp_subcategoria_agregar.getSelectedItem().toString();
-        Subcategoria subcategoria = DBH.getSubcategoria(subcategoria_selec);
-        int id_subcategoria = subcategoria.id_sbc;
-        boolean validado_item = validarItem(item_desc, categoria.desc_cat);
-        if (validado_item) {
-            Item item = new Item();
-            item.desc_item = item_desc;
-            item.id_sbc = id_subcategoria;
-            DBH.addOrUpdateItem(item);
-            Toast.makeText(getApplicationContext(), "Ítem agregado con éxito", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "Error al intentar ingresar ítem", Toast.LENGTH_SHORT).show();
+        try {
+            DBHelper DBH = DBHelper.getInstance(getApplicationContext());
+            String desc_item = et_item.getText().toString();
+            String categoria_selected = sp_categoria_agregar.getSelectedItem().toString();
+            Categoria categoria = DBH.getCategoria(categoria_selected);
+            String desc_categoria = categoria.desc_cat;
+            String subcategoria_selected = sp_subcategoria_agregar.getSelectedItem().toString();
+            Subcategoria subcategoria = DBH.getSubcategoria(subcategoria_selected);
+            int id_subcategoria = subcategoria.id_sbc;
+            if (desc_item.isEmpty()) {
+                Toast.makeText(this, "Debe ingresar un ítem", Toast.LENGTH_SHORT).show();
+            } else if (desc_categoria.equals("Escoja una categoría:")) {
+                Toast.makeText(getApplicationContext(), "No selecciono ningúna categoría", Toast.LENGTH_SHORT).show();
+            } else {
+                Item item = new Item();
+                item.desc_item = desc_item;
+                item.id_sbc = id_subcategoria;
+                DBH.addOrUpdateItem(item);
+                Toast.makeText(getApplicationContext(), "Ítem agregado con éxito", Toast.LENGTH_SHORT).show();
+                finish();
+                startActivity(getIntent());
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Debe agregar primero una subcategoría", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Método btn_confirmar_eliminar
+    public void btn_confirmar_eliminar(View view) {
+        try {
+            DBHelper DBH = DBHelper.getInstance(getApplicationContext());
+            String tabla = "item";
+            String columna = "desc_item";
+            String item_selected = sp_item_eliminar.getSelectedItem().toString();
+            Item item = DBH.getItem(item_selected);
+            String valor = item.desc_item;
+            DBH.deleteDetails(tabla, columna, valor);
+            Toast.makeText(this, "Ítem borrado con éxito", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(getIntent());
+        } catch (Exception e) {
+            Toast.makeText(this, "Ingrese un item", Toast.LENGTH_SHORT).show();
         }
     }
 }

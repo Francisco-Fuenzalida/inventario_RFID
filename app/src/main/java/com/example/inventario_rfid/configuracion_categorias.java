@@ -94,7 +94,7 @@ public class configuracion_categorias extends AppCompatActivity {
         }
     }
 
-    // Método boton btn_confirmar_agregar
+    // Método btn_confirmar_agregar
     public void btn_confirmar_agregar(View view) {
         DBHelper DBH = DBHelper.getInstance(getApplicationContext());
         String desc_categoria = et_categoria.getText().toString();
@@ -105,7 +105,26 @@ public class configuracion_categorias extends AppCompatActivity {
             categoria.desc_cat = desc_categoria;
             DBH.addOrUpdateCategoria(categoria);
             Toast.makeText(getApplicationContext(), "Categoría agregada con éxito", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(getIntent());
         }
     }
 
+    // Método btn_confirmar_eliminar
+    public void btn_confirmar_eliminar(View view) {
+        DBHelper DBH = DBHelper.getInstance(getApplicationContext());
+        String tabla = "categoria";
+        String columna = "desc_cat";
+        String categoria_selec = sp_categoria.getSelectedItem().toString();
+        Categoria categoria = DBH.getCategoria(categoria_selec);
+        String valor = categoria.desc_cat;
+        if (categoria.desc_cat.equals("Escoja una categoría:")) {
+            Toast.makeText(this, "Debe seleccionar una categoría", Toast.LENGTH_SHORT).show();
+        } else {
+            DBH.deleteDetails(tabla, columna, valor);
+            Toast.makeText(this, "Categoría borrada con éxito", Toast.LENGTH_SHORT).show();
+            finish();
+            startActivity(getIntent());
+        }
+    }
 }

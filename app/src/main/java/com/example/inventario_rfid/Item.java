@@ -4,4 +4,9 @@ public class Item {
     public int id_item;
     public String desc_item;
     public int id_sbc;
+
+    @Override
+    public String toString() {
+        return desc_item;
+    }
 }
