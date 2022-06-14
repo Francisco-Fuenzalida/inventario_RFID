@@ -71,6 +71,8 @@ public class Reportes_activity extends AppCompatActivity {
         db.addOrUpdatePareados(ppBig);
         ppBig.tag_par = "3456";
         db.addOrUpdatePareados(ppBig);
+        db.addOrUpdatePareados(ppBig);
+        db.addOrUpdatePareados(ppBig);
 
         setContentView(R.layout.activity_reportes);
         dateText = findViewById(R.id.txt_fecha_ini);
@@ -81,13 +83,13 @@ public class Reportes_activity extends AppCompatActivity {
         bn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    MostrarDatos(dateText.toString(), dateText2.toString());
+                    MostrarDatos(dateText.getText().toString(), dateText2.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
         });
-        findViewById(R.id.txt_btn_ini).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.txt_fecha_ini).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment newFragment1 = new DatePickerFragment1();
@@ -95,7 +97,7 @@ public class Reportes_activity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.txt_btn_fin).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.txt_fecha_fin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment newFragment2 = new DatePickerFragment2();
@@ -134,12 +136,13 @@ public class Reportes_activity extends AppCompatActivity {
             mYear1 = year;
             mMonth1 = month;
             mDay1 = day;
+            dateText.setText(mDay1 + "/" + (mMonth1 + 1) + "/" +mYear1);
             // show selected date to date button
 //            dateText.setText(new StringBuilder()
 //                    .append(mYear1).append("-")
 //                    .append(mMonth1 + 1).append("-")
 //                    .append(mDay1).append("-"));
-            String test = dateText.toString();
+            String test = mDay1 + "/" + mMonth1 + "/" +mYear1;
         }
     }
 
@@ -166,11 +169,12 @@ public class Reportes_activity extends AppCompatActivity {
             mMonth2 = month;
             mDay2 = day;
             // show selected date to date button
-            dateText2.setText(new StringBuilder()
-                    .append(mDay2).append("-")
-                    .append(mMonth2 + 1).append("-")
-                    .append(mYear2).append("-"));
-            String test = dateText2.toString();
+//            dateText2.setText(new StringBuilder()
+//                    .append(mDay2).append("-")
+//                    .append(mMonth2 + 1).append("-")
+//                    .append(mYear2).append("-"));
+//            String test = dateText2.toString();
+            dateText2.setText(mDay2 + "/" + (mMonth2 + 1) + "/" + mYear2);
 
 
         }
@@ -181,8 +185,7 @@ public class Reportes_activity extends AppCompatActivity {
         Context context = getApplicationContext();
         TableLayout tbl_datos = (TableLayout) findViewById(R.id.tbl_datos);
 
-        DateText1 = "01/01/2022";
-        DateText2 = "01/01/2023";
+
         List<Pareados> pa = db.getAllPareados();
         List<Item> it = db.getAllItem();
 
@@ -208,10 +211,15 @@ public class Reportes_activity extends AppCompatActivity {
                     //fila.addView(Par);
                     TableRow fila =new TableRow(this);
                     tax = new EditText(this);
+                    tax.setEnabled(false);
                     tex = new EditText(this);
+                    tex.setEnabled(false);
                     tix = new EditText(this);
+                    tix.setEnabled(false);
                     tox = new EditText(this);
+                    tox.setEnabled(false);
                     tux = new EditText(this);
+                    tux.setEnabled(false);
                     tax.setGravity(Gravity.CENTER_VERTICAL);
                     tex.setGravity(Gravity.CENTER_VERTICAL);
                     tix.setGravity(Gravity.CENTER_VERTICAL);
