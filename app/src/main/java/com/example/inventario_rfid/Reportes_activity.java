@@ -9,11 +9,13 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,11 +26,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class Reportes_activity extends AppCompatActivity {
 
     static TextView dateText;
     static TextView dateText2;
+    DBHelper db;
     //--------- DATE PICKER 1 ----
     String date1;
     public static final String DATE_DIALOG_1 = "datePicker1";
@@ -50,6 +55,8 @@ public class Reportes_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = DBHelper.getInstance(this);
+
         setContentView(R.layout.activity_reportes);
         dateText = findViewById(R.id.txt_fecha_ini);
         dateText2 = findViewById(R.id.txt_fecha_fin);
@@ -117,6 +124,7 @@ public class Reportes_activity extends AppCompatActivity {
                     .append(mYear1).append("-")
                     .append(mMonth1 + 1).append("-")
                     .append(mDay1).append(" "));
+            String test = dateText.toString();
         }
     }
 
@@ -147,6 +155,7 @@ public class Reportes_activity extends AppCompatActivity {
                     .append(mDay2).append(" ")
                     .append(mMonth2 + 1).append("-")
                     .append(mYear2).append("-"));
+            String test = dateText2.toString();
 
 
         }
@@ -156,15 +165,35 @@ public class Reportes_activity extends AppCompatActivity {
     public void MostrarDatos(String DateText1, String DateText2) throws ParseException {
         Context context = getApplicationContext();
         TableLayout tbl_datos = (TableLayout) findViewById(R.id.tbl_datos);
+
+
+
         try {
             if (ValidacionDatos(DateText1, DateText2)) {
 
                 // AÑADIR LAS QUERYS PARA HACER EL SELECT E INSERTAR EN LA TABLA VISUALMENTE.
                 TableRow fila =new TableRow(this);
+                TextView tex;
+
 
                 //Con esta seccion se añaden los datos desde la tabla de bd hacia acá
 
-                //tbl_datos.addView();
+                List<PareadosFecha> lista= db.PareadosFecha(DateText1, DateText2);
+
+                for (PareadosFecha Par : lista){
+                    //fila.addView(Par);
+                    tex = new EditText(this);
+                    tex.setGravity(Gravity.CENTER_VERTICAL);
+                    tex.setText(Par.id_pf);
+
+                    //tex.setText(Par[0]);
+                    fila.addView(tex);
+                    //tbl_datos.addView(context, Par);
+
+                }
+
+
+                tbl_datos.addView(fila);
 
 
             } else {

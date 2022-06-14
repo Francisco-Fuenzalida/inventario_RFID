@@ -9,8 +9,8 @@
 
     <EditText
         android:id="@+id/idNombreUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="349dp"
+        android:layout_height="43dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="32dp"
@@ -109,9 +109,8 @@
         android:layout_width="289dp"
         android:layout_height="66dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="140dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="16dp"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toTopOf="@+id/textUser"
         app:layout_constraintEnd_toEndOf="parent"
