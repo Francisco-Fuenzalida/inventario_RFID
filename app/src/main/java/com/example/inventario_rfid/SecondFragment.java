@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.inventario_rfid.databinding.FragmentSecondBinding;
+
+import java.util.List;
 
 public class SecondFragment extends Fragment {
 
@@ -25,8 +28,6 @@ public class SecondFragment extends Fragment {
 
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
-
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -52,8 +53,16 @@ public class SecondFragment extends Fragment {
         binding.btnScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SecondFragment.this.getActivity(), Scaner_activity.class);
-                startActivity(intent);
+                DBHelper dbh = DBHelper.getInstance(getContext());
+                List<Item> items = dbh.getAllItem();
+                int cant_item = items.size();
+                System.out.println(cant_item);
+                if (cant_item <= 1){
+                    Toast.makeText(getActivity(), "Agregué por lo menos un ítem antes de escanear", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(SecondFragment.this.getActivity(), Scaner_activity.class);
+                    startActivity(intent);
+                }
             }
         });
         binding.btnDatabase.setOnClickListener(new View.OnClickListener() {
