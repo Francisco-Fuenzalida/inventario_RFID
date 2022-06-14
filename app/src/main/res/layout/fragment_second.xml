@@ -50,7 +50,6 @@
         android:layout_height="38dp"
         android:layout_marginTop="28dp"
         android:gravity="center"
-        android:text="@string/mi_usuario"
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"

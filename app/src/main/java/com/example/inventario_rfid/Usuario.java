@@ -12,4 +12,14 @@ public class Usuario {
     public String answer;
     public int id_sec_que;
     public int id_per;
+
+    public static String nombre_usuario = "";
+
+    public String getNombre_usuario() {
+        return nombre_usuario;
+    }
+
+    public void setNombre_usuario(String usuario) {
+        this.nombre_usuario = usuario;
+    }
 }

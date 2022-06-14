@@ -69,6 +69,9 @@ public class FirstFragment extends Fragment {
                         boolean go = dbh.Login(usuario, contrasena);
                         if (go) {
                             Toast.makeText(getActivity(), "Login Exitoso", Toast.LENGTH_SHORT).show();
+                            Usuario us = dbh.getUser(usuario);
+                            String name = us.nombre;
+                            us.setNombre_usuario(name);
                             NavHostFragment.findNavController(FirstFragment.this)
                                     .navigate(R.id.action_FirstFragment_to_SecondFragment);
                         } else {
