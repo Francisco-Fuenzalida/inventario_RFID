@@ -49,70 +49,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <TextView
-        android:id="@+id/txt_fecha_ini"
-        android:layout_width="113dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:background="@android:drawable/editbox_background"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.106"
-        app:layout_constraintStart_toEndOf="@+id/txt_btn_ini"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/txt_btn_ini"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/fecha_inicial"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/txt_btn_fin"
-        android:layout_width="113dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/fecha_final"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_btn_ini" />
-
-    <TextView
-        android:id="@+id/txt_fecha_fin"
-        android:layout_width="113dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
-
-        android:background="@android:drawable/editbox_background"
-        android:shadowColor="@color/black"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/txt_btn_fin"
-        app:layout_constraintTop_toBottomOf="@+id/txt_fecha_ini" />
-
     <ScrollView
         android:layout_width="275dp"
         android:layout_height="87dp"
-        android:layout_marginStart="82dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="64dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_cargarDatos"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.02">
 
         <TableLayout
             android:id="@+id/tbl_datos"
@@ -189,8 +136,9 @@
                     android:background="#000000"
                     android:editable="false"
                     android:gravity="center"
-                    android:text="Es Salida"
+                    android:text="Estado"
                     android:textColor="#FFFFFF" />
+
             </TableRow>
 
             <TableRow
@@ -211,10 +159,66 @@
         android:id="@+id/btn_cargarDatos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:text="Cargar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_fecha_fin" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+        <TextView
+            android:id="@+id/txt_btn_ini"
+            android:layout_width="113dp"
+            android:layout_height="32dp"
+            android:text="@string/fecha_inicial"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_fecha_ini"
+            android:layout_width="112dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="20dp"
+            android:background="@android:drawable/editbox_background"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/txt_btn_fin"
+            android:layout_width="113dp"
+            android:layout_height="32dp"
+            android:text="@string/fecha_final"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/txt_fecha_fin"
+            android:layout_width="112dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="20dp"
+            android:background="@android:drawable/editbox_background"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
