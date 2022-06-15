@@ -79,7 +79,8 @@ public class Scaner_activity extends AppCompatActivity implements RFIDHandler.Re
             par.esSalida = 0;
             par.id_item = itm.id_item;
             par.id_pos = DBH.getPosicion("BODEGA_A").id_pos;
-            par.id_user = 0; //TODO
+            int id = Usuario.id_usuario;
+            par.id_user = id; //TODO
             par.fec_salida = "";
             Calendar cal = Calendar.getInstance();
             Date date = cal.getTime();
