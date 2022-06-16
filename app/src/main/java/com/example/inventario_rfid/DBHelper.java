@@ -234,19 +234,19 @@ public class DBHelper extends SQLiteOpenHelper {
                 KEY_PROFILES_PIU+','+KEY_PROFILES_PEU+','+KEY_PROFILES_PBU+','+KEY_PROFILES_CFG + ") VALUES" +
                 "('admin',1,1,1,1,1,1,1)";
 
-        String INSERT_USER_TABLE = "INSERT INTO " + TABLE_USERS + " (" + KEY_USER_USER+','+KEY_USER_PASS+','+KEY_USER_NAME+','+KEY_USER_SURNAME_FATHER+','+
-                KEY_USER_SURNAME_MOTHER+','+KEY_USER_RUT+','+KEY_USER_DV+','+KEY_USER_SECRET_ANSWER+','+KEY_USER_PROFILE_ID+','+KEY_USER_SECRET_QUESTION_ID + ") VALUES" +
-                "('tester','tester','Tester','Testington','Testeani','19999999','1','tester',1,1)";
-
-        String INSERT_CATEGORIA_TABLE = "INSERT INTO " + TABLE_CATEGORIA + " (" + KEY_CATEGORIA_DESC + ") VALUES" +
-                "('Escoja una categoría:')";
-
-        String INSERT_SUBCATEGORY_TABLE = "INSERT INTO " + TABLE_SUBCATEGORIA + " ("+KEY_SUBCATEGORIA_DESC + ") VALUES" +
-                "('')";
-
-
-        String INSERT_ITEM_TABLE = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_DESC + ") VALUES" +
-                "('')";
+//        String INSERT_USER_TABLE = "INSERT INTO " + TABLE_USERS + " (" + KEY_USER_USER+','+KEY_USER_PASS+','+KEY_USER_NAME+','+KEY_USER_SURNAME_FATHER+','+
+//                KEY_USER_SURNAME_MOTHER+','+KEY_USER_RUT+','+KEY_USER_DV+','+KEY_USER_SECRET_ANSWER+','+KEY_USER_PROFILE_ID+','+KEY_USER_SECRET_QUESTION_ID + ") VALUES" +
+//                "('tester','tester','Tester','Testington','Testeani','19999999','1','tester',1,1)";
+//
+//        String INSERT_CATEGORIA_TABLE = "INSERT INTO " + TABLE_CATEGORIA + " (" + KEY_CATEGORIA_DESC + ") VALUES" +
+//                "('Escoja una categoría:')";
+//
+//        String INSERT_SUBCATEGORY_TABLE = "INSERT INTO " + TABLE_SUBCATEGORIA + " ("+KEY_SUBCATEGORIA_DESC + ") VALUES" +
+//                "('')";
+//
+//
+//        String INSERT_ITEM_TABLE = "INSERT INTO " + TABLE_ITEM + " ("+KEY_ITEM_DESC + ") VALUES" +
+//                "('')";
 
         String INSERT_POSITION = "INSERT INTO " + TABLE_POSICION + " (" + KEY_POSICION_DESC + ") VALUES('BODEGA_A')";
 
@@ -268,10 +268,10 @@ public class DBHelper extends SQLiteOpenHelper {
         DB.execSQL(CREATE_SECURITY_QUESTIONS_TABLE);
         DB.execSQL(INSERT_SECURITY_QUESTIONS_TABLE);
         DB.execSQL(INSERT_PERFIL_TABLE);
-        DB.execSQL(INSERT_USER_TABLE);
-        DB.execSQL(INSERT_CATEGORIA_TABLE);
-        DB.execSQL(INSERT_SUBCATEGORY_TABLE);
-        DB.execSQL(INSERT_ITEM_TABLE);
+//        DB.execSQL(INSERT_USER_TABLE);
+//        DB.execSQL(INSERT_CATEGORIA_TABLE);
+//        DB.execSQL(INSERT_SUBCATEGORY_TABLE);
+//        DB.execSQL(INSERT_ITEM_TABLE);
         DB.execSQL(INSERT_POSITION);
     }
 

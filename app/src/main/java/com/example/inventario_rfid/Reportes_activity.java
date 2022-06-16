@@ -57,22 +57,22 @@ public class Reportes_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = DBHelper.getInstance(this);
 
-        Pareados ppBig = new Pareados();
-        ppBig.tag_par = "1234";
-        ppBig.id_user = 1;
-        ppBig.id_item = 1;
-        ppBig.id_pos = 1;
-        ppBig.fec_creacion = "12/06/2022";
-        ppBig.fec_modificacion = "12/06/2022";
-        ppBig.fec_salida = "";
-        ppBig.esSalida = 0;
-        db.addOrUpdatePareados(ppBig);
-        ppBig.tag_par = "2345";
-        db.addOrUpdatePareados(ppBig);
-        ppBig.tag_par = "3456";
-        db.addOrUpdatePareados(ppBig);
-        db.addOrUpdatePareados(ppBig);
-        db.addOrUpdatePareados(ppBig);
+//        Pareados ppBig = new Pareados();
+//        ppBig.tag_par = "1234";
+//        ppBig.id_user = 1;
+//        ppBig.id_item = 1;
+//        ppBig.id_pos = 1;
+//        ppBig.fec_creacion = "12/06/2022";
+//        ppBig.fec_modificacion = "12/06/2022";
+//        ppBig.fec_salida = "";
+//        ppBig.esSalida = 0;
+//        db.addOrUpdatePareados(ppBig);
+//        ppBig.tag_par = "2345";
+//        db.addOrUpdatePareados(ppBig);
+//        ppBig.tag_par = "3456";
+//        db.addOrUpdatePareados(ppBig);
+//        db.addOrUpdatePareados(ppBig);
+//        db.addOrUpdatePareados(ppBig);
 
         setContentView(R.layout.activity_reportes);
         dateText = findViewById(R.id.txt_fecha_ini);

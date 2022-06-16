@@ -164,12 +164,41 @@ public class Sincronizacion_activity extends AppCompatActivity {
         Row row = null;
         row = sheet.createRow(0);
         cell = row.createCell(0);
-        cell.setCellValue("DATOS");
+        cell.setCellValue("ID");
         //cell.setCellStyle(cellStyle);
 
         sheet.createRow( 1);
         cell = row.createCell(1);
-        cell.setCellValue("id");
+        cell.setCellValue("TAG");
+
+        sheet.createRow( 2);
+        cell = row.createCell(2);
+        cell.setCellValue("ID_ITEM");
+
+        sheet.createRow( 3);
+        cell = row.createCell(3);
+        cell.setCellValue("ID_USER");
+
+        sheet.createRow( 4);
+        cell = row.createCell(4);
+        cell.setCellValue("ID_POS");
+
+        sheet.createRow( 5);
+        cell = row.createCell(5);
+        cell.setCellValue("FEC_C");
+
+        sheet.createRow( 6);
+        cell = row.createCell(6);
+        cell.setCellValue("FEC_M");
+
+        sheet.createRow( 7);
+        cell = row.createCell(7);
+        cell.setCellValue("FEC_S");
+
+        sheet.createRow( 8);
+        cell = row.createCell(8);
+        cell.setCellValue("SAL");
+
         //cell.setCellStyle(cellStyle);
 
         /*row = sheet.createRow(1);
@@ -180,16 +209,37 @@ public class Sincronizacion_activity extends AppCompatActivity {
         List<Pareados> pareados = DBH.getAllPareados();
         int i=1;
         for (Pareados par: pareados) {
+            int id = par.id_par;
             String pa = par.tag_par;
             int item = par.id_item;
+            int id_user = par.id_user;
+            int id_pos = par.id_pos;
+            String f_c = par.fec_creacion;
+            String f_m = par.fec_modificacion;
+            String f_s = par.fec_salida;
+            int es = par.esSalida;
 
             row = sheet.createRow(i);
             cell = row.createCell(0);
-            cell.setCellValue(pa);
+            cell.setCellValue(id);
 
             //sheet.createRow(i);
             cell = row.createCell(1);
+            cell.setCellValue(pa);
+            cell = row.createCell(2);
             cell.setCellValue(item);
+            cell = row.createCell(3);
+            cell.setCellValue(id_user);
+            cell = row.createCell(4);
+            cell.setCellValue(id_pos);
+            cell = row.createCell(5);
+            cell.setCellValue(f_c);
+            cell = row.createCell(6);
+            cell.setCellValue(f_m);
+            cell = row.createCell(7);
+            cell.setCellValue(f_s);
+            cell = row.createCell(8);
+            cell.setCellValue(es);
             i ++;
         }
 
@@ -262,19 +312,19 @@ public class Sincronizacion_activity extends AppCompatActivity {
                             datos = datos + "\n";
 
                             if (!lista.get(0).isEmpty()){ par.id_par = Integer.parseInt(lista.get(0)); }
-                            else{ par.id_par =0;}
+                            else{ par.id_par =1;}
 
                             if (!lista.get(1).isEmpty()){ par.tag_par = lista.get(1);}
                             else{ par.tag_par =""; }
 
                             if (!lista.get(2).isEmpty()){ par.id_item = Integer.parseInt(lista.get(2)); }
-                            else{ par.id_item =0; }
+                            else{ par.id_item =1; }
 
                             if (!lista.get(3).isEmpty()){ par.id_user = Integer.parseInt(lista.get(3));}
-                            else{ par.id_user =0;  }
+                            else{ par.id_user =1;  }
 
                             if (!lista.get(4).isEmpty()){ par.id_pos = Integer.parseInt(lista.get(4)); }
-                            else{ par.id_pos =0;}
+                            else{ par.id_pos =1;}
 
                             if (!lista.get(5).isEmpty()){par.fec_creacion = lista.get(5); }
                             else{ par.fec_creacion ="";}

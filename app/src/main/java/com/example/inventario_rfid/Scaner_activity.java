@@ -33,6 +33,7 @@ public class Scaner_activity extends AppCompatActivity implements RFIDHandler.Re
     Spinner itemSpin;
     List<Item> litems;
     String[] SQitems;
+    Pareados par;
     final static String TAG = "RFID_SAMPLE";
 
 
@@ -55,6 +56,21 @@ public class Scaner_activity extends AppCompatActivity implements RFIDHandler.Re
         itemSpin = findViewById(R.id.ddl_items);
         populateSpinner();
 
+        par = new Pareados();
+
+        par.esSalida = 0;
+
+        par.id_pos = DBH.getPosicion("BODEGA_A").id_pos;
+        int id = Usuario.id_usuario;
+        par.id_user = id; //TODO
+        par.fec_salida = "";
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String dt = formatter.format(date);
+        par.fec_creacion = dt;
+        par.fec_modificacion = dt;
+
         Button btn_volver = (Button) findViewById(R.id.btn_volver_scan);
         btn_volver.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -72,24 +88,12 @@ public class Scaner_activity extends AppCompatActivity implements RFIDHandler.Re
     public void registerread(String tagid) {
         final StringBuilder sb = new StringBuilder();
         try {
-            sb.append(tagid + "\n");
+            sb.append(tagid);
             Item itm = DBH.getItem(itemSpin.getSelectedItem().toString());
-            Pareados par = new Pareados();
             par.tag_par = sb.toString();
-            par.esSalida = 0;
             par.id_item = itm.id_item;
-            par.id_pos = DBH.getPosicion("BODEGA_A").id_pos;
-            int id = Usuario.id_usuario;
-            par.id_user = id; //TODO
-            par.fec_salida = "";
-            Calendar cal = Calendar.getInstance();
-            Date date = cal.getTime();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            String dt = formatter.format(date);
-            par.fec_creacion = dt;
-            par.fec_modificacion = dt;
             DBH.addOrUpdatePareados(par);
-            //textrfid.setText(sb.toString());
+            textrfid.setText(sb.toString());
         }
         catch(Exception e)
         {
